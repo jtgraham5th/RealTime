@@ -1,11 +1,8 @@
 console.log("Hello World")
 
-
-
 $("#hello").addClass("bg-danger");
-
+//-----------Map API----------
 var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
-
 var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
 $.ajax({
@@ -14,6 +11,33 @@ $.ajax({
 }).then(function(response) {
     console.log(response.data);
   });
+//-----------Weather API----------
+var weatherqueryURL = "api.openweathermap.org/data/2.5/forecast?q=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+$.ajax({
+    url: weatherqueryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+
+    });
+//-----------Yelp API----------
+var yelpqueryURL = "https://api.yelp.com/v3/businesses/search"
+  $.ajax({
+      url: yelpqueryURL,
+      method: "GET"
+  })
+      .then(function(response) {
+
+      });
+//----------News API-----------
+var searchnewarea = $(this).attr("value")
+var apiKey = "e00b92eba88f4067ae9c597f113f0670";
+var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
+    $.ajax({
+    url: queryURL,
+    method: "Get"
+    })
+ //--------   
 
 // Initialize Firebase
  // Your web app's Firebase configuration
@@ -85,17 +109,11 @@ function showPosition(position) {
 
 //Google news API Key 
 $(document).on("click", 'button', function () {
-    var searchnewarea = $(this).attr("value")
-    // console.log(this);
-    var apiKey = "e00b92eba88f4067ae9c597f113f0670";
-    var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
     // console.log(this);
 
     $('.info').empty();
-            $.ajax({
-                url: queryURL,
-                method: "Get"
-            })
+            
 
 })
 
+    
