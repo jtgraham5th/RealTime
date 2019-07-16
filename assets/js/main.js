@@ -2,18 +2,18 @@ console.log("Hello World")
 
 
 
-$("#hello").addClass("bg-danger");
+// $("#hello").addClass("bg-danger");
 
-var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
+// var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
 
-var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
+// var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function(response) {
-    console.log(response.data);
-  });
+// $.ajax({
+//     url: queryURL,
+//     method: "GET"
+// }).then(function(response) {
+//     console.log(response.data);
+//   });
 
 // Initialize Firebase
  // Your web app's Firebase configuration
@@ -28,10 +28,10 @@ $.ajax({
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
+  console.log(firebaseConfig);
 
 // Create a variable to reference the database.
-// var name = firebase.database();
+var name = firebase.database();
 
 
 // on click function to redirect to another page for "Page 1"
@@ -84,18 +84,18 @@ function showPosition(position) {
 }
 
 //Google news API Key 
-$(document).on("click", 'button', function () {
-    var searchnewarea = $(this).attr("value")
-    // console.log(this);
-    var apiKey = "e00b92eba88f4067ae9c597f113f0670";
-    var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
-    // console.log(this);
+// $(document).on("click", 'button', function () {
+//     var searchnewarea = $(this).attr("value")
+//     // console.log(this);
+//     var apiKey = "e00b92eba88f4067ae9c597f113f0670";
+//     var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
+//     // console.log(this);
 
-    $('.info').empty();
-            $.ajax({
-                url: queryURL,
-                method: "Get"
-            })
+//     $('.info').empty();
+//             $.ajax({
+//                 url: queryURL,
+//                 method: "Get"
+//             })
 
-})
+// })
 

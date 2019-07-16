@@ -1,29 +1,8 @@
 <!DOCTYPE html>
 
-<html> 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/styles/style.css">
-
-    </head>
-    <body>
-
-        <h1 id="hello">Hellp World</h1>
-
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <script src="assets/js/main.js"></script>
-        <script type="text/javascript"></script>
-
-    </body>
-
-
 <html>
+
+
 
 <head>
     <meta charset="utf-8">
@@ -32,15 +11,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles/reset.css">
-    
+
 
     <!-- BootStrap Link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <!-- LINK TO JQUERY LIBRARY -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -48,54 +26,61 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="row">
-    <div class="jumbotron" style="height: 15rem">
-        <h1 class="display-4">Welcome to RealTime!</h1>
-        <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at RealTime, we
-            strive to give our users the most up-to-date current information pertaining to the location of their choice.
-            With the tap of a finger, RealTime will use gelocation to provide our users with a current 10-day forecast,
-            places nearby, things to do, current events, and even local news! Click a button to get started!</p>
-    </div>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron" style="height: 15rem">
+                <h1 class="display-4">Welcome to RealTime!</h1>
+                <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
+                    RealTime, we
+                    strive to give our users the most up-to-date current information pertaining to the location of their
+                    choice.
+                    With the tap of a finger, RealTime will use gelocation to provide our users with a current 10-day
+                    forecast,
+                    places nearby, things to do, current events, and even local news! Click a button to get started!</p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-8">
-            <div class="card" style="height: 25rem">
+                <div class="card" style="height: 25rem">
                     <img src="assets/images/location.png" class="card-img-top" alt="map">
                     <div class="card-body">
-                            <h5 class="card-title">You are here!</h5>
-                      <p class="card-text">This is where you are currently located based on your geolocation!</p>
+                        <h5 class="card-title">You are here!</h5>
+                        <p class="card-text">This is where you are currently located based on your geolocation!</p>
                     </div>
-                  </div>
                 </div>
+            </div>
             <div class="col-4">
-            <div class="card" style="height: 25rem">
+                <div class="card" style="height: 25rem">
                     <img src="assets/images/weather.jpg" class="card-img-top" alt="weather">
                     <div class="card-body">
-                            <h5 class="card-title">10-Day Forecast</h5>
-                      <p class="card-text">Weather for the next 10 days!</p>
+                        <h5 class="card-title">10-Day Forecast</h5>
+                        <p class="card-text">Weather for the next 10 days!</p>
                     </div>
-                  </div>
-</div>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row">
             <div class="col text-center">
-            <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" id="placesNearbyButton">
-                Places Nearby
-            </button></div>
+                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
+                    id="placesNearbyButton">
+                    Places Nearby
+                </button></div>
             <div class="col text-center">
-            <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" id="placesToStayButton">
-                Places to Stay
-            </button></div>
+                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
+                    id="placesToStayButton">
+                    Places to Stay
+                </button></div>
             <div class="col text-center">
-            <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" id="currentEventsButton">
-                Current Events
-            </button></div>
+                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
+                    id="currentEventsButton">
+                    Current Events
+                </button></div>
             <div class="col text-center">
-            <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off" id="localNewsButton">
-                Local News
-            </button></div>
+                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
+                    id="localNewsButton">
+                    Local News
+                </button></div>
         </div>
         <br>
         <div class="row">
