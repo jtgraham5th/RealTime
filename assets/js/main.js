@@ -8,44 +8,44 @@ console.log("Hello World")
 
 
 
-$("#hello").addClass("bg-danger");
-//-----------Map API----------
-var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
-var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
+// $("#hello").addClass("bg-danger");
+// //-----------Map API----------
+// var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
+// var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function(response) {
-    console.log(response.data);
-  });
-//-----------Weather API----------
-var weatherqueryURL = "api.openweathermap.org/data/2.5/forecast?q=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
-$.ajax({
-    url: weatherqueryURL,
-    method: "GET"
-  })
-    .then(function(response) {
+// $.ajax({
+//     url: queryURL,
+//     method: "GET"
+// }).then(function(response) {
+//     console.log(response.data);
+//   });
+// //-----------Weather API----------
+// var weatherqueryURL = "api.openweathermap.org/data/2.5/forecast?q=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+// $.ajax({
+//     url: weatherqueryURL,
+//     method: "GET"
+//   })
+//     .then(function(response) {
 
-    });
-//-----------Yelp API----------
-var yelpqueryURL = "https://api.yelp.com/v3/businesses/search"
-  $.ajax({
-      url: yelpqueryURL,
-      method: "GET"
-  })
-      .then(function(response) {
+//     });
+// //-----------Yelp API----------
+// var yelpqueryURL = "https://api.yelp.com/v3/businesses/search"
+//   $.ajax({
+//       url: yelpqueryURL,
+//       method: "GET"
+//   })
+//       .then(function(response) {
 
-      });
-//----------News API-----------
-var searchnewarea = $(this).attr("value")
-var apiKey = "e00b92eba88f4067ae9c597f113f0670";
-var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
-    $.ajax({
-    url: queryURL,
-    method: "Get"
-    })
- //--------   
+//       });
+// //----------News API-----------
+// var searchnewarea = $(this).attr("value")
+// var apiKey = "e00b92eba88f4067ae9c597f113f0670";
+// var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
+//     $.ajax({
+//     url: queryURL,
+//     method: "Get"
+//     })
+//  //--------   
 
 // Initialize Firebase
 // Your web app's Firebase configuration
@@ -67,12 +67,10 @@ var database = firebase.database();
 
 // var initialValue = 100;
 
-var clickCounter = 0;
+var Counter = 0;
 //This function will send the information to the firebase
 
-database.ref().set({
-  clickCounter: clickCounter
-});
+
 
 // on click function to redirect to another page for "Places Near By Button"
 $("#placesNearbyButton").on("click", function () {
@@ -80,14 +78,23 @@ $("#placesNearbyButton").on("click", function () {
   event.preventDefault()
   // alert(location.getLocation);
   // $("#placesNearbyButton").html(clickCounter);
-  clickCounter++;
+  Counter++;
+//this will send the information to firebase and update each click
+  database.ref().set({
+    clickCounter: Counter
+  });
 });
 // on click function to redirect to another page for "Places to Stay"
 $("#placesToStayButton").on("click", function () {
   event.preventDefault()
   // window.location.href="/";
   // console.log(this)
-  clickCounter++;
+  Counter++;
+//this will send the information to firebase and update each click
+  database.ref().set({
+    clickCounter: Counter
+  });
+
 });
 // // on click function to redirect to another page for "Current Events"
 $("#currentEventsButton").on("click", function () {
@@ -95,25 +102,35 @@ $("#currentEventsButton").on("click", function () {
   // window.location.href="/"
   // console.log(this)
   // $("#currentEventsButton").text(clickCounter);
-  clickCounter++;
+  Counter++;
+//this will send the information to firebase and update each click
+  database.ref().set({
+    clickCounter: Counter
+  });
+
 });
 // // on click function to redirect to another page for "Local News"
 $("#localNewsButton").on("click", function () {
   event.preventDefault()
   // window.location.href="/"
   // console.log(this)
-  clickCounter++;
+  Counter++;
+//this will send the information to firebase and update each click
+  database.ref().set({
+    clickCounter: Counter
+  });
+
 });
 
 
 
-database.ref().on("value", function(snapshot){
+database.ref().on("value", function (snapshot) {
   console.log(snapshot.val());
 
-  clickCounter = snapshot.val().clickCounter;
+  Counter = snapshot.val().clickCounter;
 
 
-}), function(errorObject){
+}), function (errorObject) {
   console.log("The read failed: " + errorObject.code);
 }
 
