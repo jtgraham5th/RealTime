@@ -1,44 +1,104 @@
 console.log("Hello World")
+// getLocation();
+var latitude;
+var longitude;
+var city = "Atlanta";
+var shortCountry;
+var longCountry;
+var zip;
+var placeType = "restaurant"
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  };
+
+
+function showPosition(position) {
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log(latitude);
+    console.log(longitude)
 
 $("#hello").addClass("bg-danger");
-//-----------Map API----------
+//-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
+//----Status: WORKING---------
 var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
 var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
 $.ajax({
-    url: queryURL,
+    url: mapQueryURL,
     method: "GET"
 }).then(function(response) {
-    console.log(response.data);
+    console.log();
   });
 //-----------Weather API----------
-var weatherqueryURL = "api.openweathermap.org/data/2.5/forecast?q=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+//----Status: WORKING---------
+//---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api" 
+var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
 $.ajax({
-    url: weatherqueryURL,
+    url: reverseGeocodingQueryURL,
     method: "GET"
-  })
-    .then(function(response) {
-
+}).then(function(response) {
+    zip = response.results[0].address_components[0].long_name;
+    shortCountry = response.results[0].address_components[4].short_name;
+    console.log("Country: " + shortCountry);
+    console.log("ZIP: " + zip);
+    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip +"," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
+    // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+    $.ajax({
+        url: weatherGEOqueryURL,
+        method: "GET"
+    })
+        .then(function(response) {
+            for (i=0; i < 5; i++) {
+                console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
+        }
     });
-//-----------Yelp API----------
-var yelpqueryURL = "https://api.yelp.com/v3/businesses/search"
-  $.ajax({
-      url: yelpqueryURL,
-      method: "GET"
-  })
-      .then(function(response) {
+});
 
-      });
+//-----------Google Places API----------
+//----Status: WORKING-------------------
+//----Comments: Moved to Google Places API because yelp API does not allow authentication with javascript
+var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+  $.ajax({
+      url: placesQueryURL,
+      method: "GET"
+  }).then(function(response) {
+    for (i=0; i < 5; i++) {
+        console.log("Restaurant: " + response.results[i].name)
+      }
+  });
+//----------Events API---------
+//----Status: WORKING----------
+//----Comments: Used Public API Key, May want to include option to set dates of events listed
+var eventsQueryURL = "https://www.eventbriteapi.com/v3/events/search/";
+$.ajax({
+    url: eventsQueryURL,
+    data: {token: "7YTUMTV5GWZSSATPVJM7", sort_by: "best", "location.latitude": latitude, "location.longitude": longitude, expand: "venue" },
+    crossDomain: true,
+    method: "GET"
+}).then(function(response){
+    for (i=0; i < 5; i++) {
+        console.log("Event #" + i + "-----")
+        console.log("Event : " + response.events[i].name.text);
+        console.log("Date: " + response.events[i].start.local);
+        console.log(response.events[i].description.text)
+        
+      }
+});
 //----------News API-----------
 var searchnewarea = $(this).attr("value")
-var apiKey = "e00b92eba88f4067ae9c597f113f0670";
-var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "country=us&category=business" + "&apiKey=" + apiKey + "&limit=10";
+var apiKey = "";
+var queryURL = "https://cors-anywhere.herokuapp.com/http://newsapi.patch.org/v1.1/zipcodes/30080/stories?&apiKey=c9eae302cd944b52a90bc6ae43dc432";
     $.ajax({
     url: queryURL,
     method: "Get"
-    })
- //--------   
-
+    }).then(function(response) {
+        console.log(response)
+    })   
+};
 // Initialize Firebase
  // Your web app's Firebase configuration
  var firebaseConfig = {
@@ -61,7 +121,7 @@ var queryURL = "https://newsapi.org/v2/top-headlines?" + $(this).html() + "count
 // on click function to redirect to another page for "Page 1"
 $("#h1").on("click", function () {
     event.preventDefault()
-    $("").empty();
+    $().empty();
 
 });
 // on click function to redirect to another page for "page 2"
@@ -95,16 +155,9 @@ $("#h1").on("click", function () {
 var x = document.getElementById("demo");
 
 function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude;
+  
+//   x.innerHTML = "Latitude: " + position.coords.latitude + 
+//   "<br>Longitude: " + position.coords.longitude;
 }
 
 //Google news API Key 
