@@ -1,6 +1,8 @@
 console.log("Hello World")
 
-
+var platform = new H.service.Platform({
+  'apikey': '{YOUR_APIKEY}'
+});
 
 $("#hello").addClass("bg-danger");
 
@@ -13,8 +15,8 @@ var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-st
 
 $.ajax({
   url: hotelQueryUrl,
-  headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df",
-  "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com"
+  headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
+  "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
 },
   method: "GET"
 }).then(function(response) {
