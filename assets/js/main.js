@@ -8,7 +8,21 @@ var shortCountry;
 var longCountry;
 var zip;
 var placeType = "restaurant"
+var platform = new H.service.Platform({
+  'apikey': 'RH9YlLdRRfpLaefvUoLl'
 
+});
+
+var maptypes = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    maptypes.vector.normal.map,
+    {
+      zoom: 10,
+      center: { lng: 13.4, lat: 52.51 }
+    });
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(showPosition);
 } else {
@@ -16,25 +30,41 @@ if (navigator.geolocation) {
 };
 
 
+
+
+
 function showPosition(position) {
-  latitude = position.coords.latitude;
-  longitude = position.coords.longitude;
-  console.log(latitude);
-  console.log(longitude)
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log(latitude);
+    console.log(longitude)
 
-  $("#hello").addClass("bg-danger");
-  //-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
-  //----Status: WORKING---------
-  var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
-  var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
-  $.ajax({
+$("#hello").addClass("bg-danger");
+// var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
+
+// $.ajax({
+//   url: hotelQueryUrl,
+//   headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
+// //   "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
+// },
+//   method: "GET"
+// }).then(function(response) {
+//   console.log(response);
+// });
+
+//-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
+//----Status: WORKING---------
+var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
+var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
+
+$.ajax({
     url: mapQueryURL,
     method: "GET"
-  }).then(function (response) {
+}).then(function(response) {
 
+    console.log(response);
 
-    // console.log(response);
   });
   //-----------Weather API----------
   //----Status: WORKING---------
