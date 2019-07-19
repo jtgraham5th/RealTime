@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-
-<html>
-
-
-
+<html> 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,7 +17,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <!-- LINK TO JQUERY LIBRARY -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+    <!-- Link to Weather widget -->
+    <!-- <script type='text/javascript' src='https://darksky.net/widget/default/33.7491,-84.3902/us12/en.js?width=100%&height=350&title=Atlanta, ga&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script> -->
     <link rel="stylesheet" href="assets/styles/style.css">
 </head>
 
@@ -29,7 +26,9 @@
     <div class="container">
         <div class="row">
             <div class="jumbotron" style="height: 15rem">
+                
                 <h1 class="display-4">Welcome to RealTime!</h1>
+                <!-- <h3 class="text-center" id="currentTime"></h3> -->
                 <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
                     RealTime, we
                     strive to give our users the most up-to-date current information pertaining to the location of their
@@ -63,8 +62,8 @@
         <div class="row">
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="placesNearbyButton">
-                    Places Nearby
+                    id="restaurantsButton">
+                    Restaurants 
                 </button></div>
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
@@ -78,8 +77,13 @@
                 </button></div>
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="localNewsButton">
+                    id="localButton">
                     Local News
+                </button></div>
+            <div class="col text-center">
+                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
+                    id="emergencyServicesButton">
+                    Emergency Services
                 </button></div>
         </div>
         <br>
