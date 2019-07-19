@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles/reset.css">
 
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+    type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+    type="text/javascript" charset="utf-8"></script>
+
 
     <!-- BootStrap Link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -39,7 +44,7 @@
         <div class="row">
             <div class="col-8">
                 <div class="card" style="height: 25rem">
-                    <img src="assets/images/location.png" class="card-img-top" alt="map">
+                    <div style="width: 640px; height: 480px" id="mapContainer"></div>
                     <div class="card-body">
                         <h5 class="card-title">You are here!</h5>
                         <p class="card-text">This is where you are currently located based on your geolocation!</p>
