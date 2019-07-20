@@ -69,7 +69,7 @@ var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapi
     console.log(response);
     // for (i=0; i < 5; i++) {
     //     console.log("Restaurant: " + response.results[i].name)
-      
+      }
   });
 //----------Events API---------
 //----Status: WORKING----------
