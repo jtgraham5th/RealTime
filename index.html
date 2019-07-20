@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html> 
+<html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,10 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles/reset.css">
 
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
-    type="text/javascript" charset="utf-8"></script>
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
-    type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
 
 
     <!-- BootStrap Link -->
@@ -27,11 +26,12 @@
     <link rel="stylesheet" href="assets/styles/style.css">
 </head>
 
-<body>
+<body onload="startTime()">
     <div class="container">
         <div class="row">
             <div class="jumbotron" style="height: 15rem">
-                
+                <!-- //added a clock function -->
+                <div id="txt"></div>
                 <h1 class="display-4">Welcome to RealTime!</h1>
                 <!-- <h3 class="text-center" id="currentTime"></h3> -->
                 <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
@@ -55,10 +55,53 @@
             </div>
             <div class="col-4">
                 <div class="card" style="height: 25rem">
-                    <img src="assets/images/weather.jpg" class="card-img-top" alt="weather">
+                    <!-- <img src="assets/images/weather.jpg" class="card-img-top" alt="weather"> -->
                     <div class="card-body">
-                        <h5 class="card-title">10-Day Forecast</h5>
-                        <p class="card-text">Weather for the next 10 days!</p>
+                        <!-- <table class="table table-hover" id="weather-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Day</th>
+                                    <th class="text-center">Weather</th>
+                                    <th class="text-center">Time</th>
+                                </tr>
+                            </thead>
+                        </table> -->
+
+                        <table class="table table-sm table-dark" id="weather-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Day</th>
+                                    <th scope="col">Weather</th>
+                                    <th scope="col">Time</th>
+                                    <!-- <th scope="col">Time</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <th scope="row" id="day1">1</th>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="day2">2</th>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="day3">3</th>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="day4">4</th>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="day5">5</th>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <h5 class="card-title" id="weather">10-Day Forecast</h5>
+                        <p class="card-text" id="weather2">Weather for the next 10 days!</p> -->
                     </div>
                 </div>
             </div>
@@ -68,7 +111,7 @@
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
                     id="restaurantsButton">
-                    Restaurants 
+                    Restaurants
                 </button></div>
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"

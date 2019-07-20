@@ -165,11 +165,42 @@ var Counter = 0;
 //use ajax
 //get response
 //console log it
+//function to create table to show weather data
 
 
 //next get the on click function to show up on the live map
+var weatherimg = $("")
 
 
+
+$("#weather-table").on("click", function(){
+  console.warn("You clicked a button");
+  var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
+  $.ajax({
+    url: reverseGeocodingQueryURL,
+    method: "GET"
+  }).then(function (response) {
+    zip = response.results[0].address_components[0].long_name;
+    shortCountry = response.results[0].address_components[4].short_name;
+    console.log("Country: " + shortCountry);
+    console.log("ZIP: " + zip);
+    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
+    // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+    $.ajax({
+      url: weatherGEOqueryURL,
+      method: "GET"
+    })
+      .then(function (response) {
+        for (i = 0; i < 5; i++) {
+          //appended the weather app to display in the table, should display description, time, and day
+          $("#day" + i).append("<tr>" + "<th> " + "<td> " + response.list[i].weather[0].description + " </td>" + " <td>" + response.list[i].dt_txt +  "</td>" + "</th>" +  "</tr>")
+    
+          console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
+          console.log(response)
+        }
+      });
+  });
+})
 
 $("#currentEventsButton").on("click", function () {
   console.warn("You clicked a button");
@@ -274,8 +305,22 @@ function getLocation() {
   //   x.innerHTML = "Latitude: " + position.coords.latitude + 
   //   "<br>Longitude: " + position.coords.longitude;
 }
-
-
+//function for continous clock
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML =
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
 
 
 
