@@ -31,7 +31,7 @@ $.ajax({
     url: mapQueryURL,
     method: "GET"
 }).then(function(response) {
-    console.log();
+    console.log(response);
   });
 //-----------Weather API----------
 //----Status: WORKING---------
@@ -66,9 +66,10 @@ var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapi
       url: placesQueryURL,
       method: "GET"
   }).then(function(response) {
-    for (i=0; i < 5; i++) {
-        console.log("Restaurant: " + response.results[i].name)
-      }
+    console.log(response);
+    // for (i=0; i < 5; i++) {
+    //     console.log("Restaurant: " + response.results[i].name)
+      
   });
 //----------Events API---------
 //----Status: WORKING----------
