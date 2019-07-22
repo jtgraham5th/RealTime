@@ -240,16 +240,128 @@ $("#localButton").on("click", function () {
 });
 //on click function will show you the restaurants in the area
 $("#restaurantsButton").on("click", function () {
-  console.warn("You clicked this button");
+  console.warn("You selected Resetaurants");
   var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
   $.ajax({
     url: placesQueryURL,
     method: "GET"
   }).then(function (response) {
     // on click function to redirect to another page for "Places to Stay"
+    // var results = response.data;
 
-    for (i = 0; i < 5; i++) {
-      console.log("Restaurant: " + response.results[i].name)
+    var restaurants = response.results;
+
+    for (i = 0; i < 8; i++) {
+      // console.log("Restaurant: " + response.results[i])
+      console.log(restaurants[i])
+
+      //create a div restaurantDiv
+      var restaurantDiv = $("<div>");
+      restaurantDiv.addClass("card");
+      restaurantDiv.addClass("col-sm-3");
+
+      // var restaurantImage = $("<img>");
+      // restaurantImage.attr("src", restaurants[i].icon);
+      // restaurantImage.addClass("card-img-top");
+      // restaurantImage.attr("id", "cardImage");
+      // restaurantDiv.append(restaurantImage);
+
+      //create a second div for the body. with a class of card-body
+      var restaurantBodyDiv = $("<div>");
+      restaurantBodyDiv.addClass("card-body");
+      //
+      restaurantBodyDiv.append("<h1 class='card-title'>" + restaurants[i].name + "</h1>");
+      //Display for if the restaurant is open
+      var open = restaurants[i].opening_hours.open_now;
+      console.log(open)
+      var restaurantOpen = $("<h3>").text("Open Now: " + open);
+      restaurantOpen.addClass("card-subtitle");
+      restaurantBodyDiv.append(restaurantOpen);
+
+      var rating = restaurants[i].rating;
+      var price = restaurants[i].price_level;
+      var type = restaurants[i].types[0];
+      var mapLink = restaurants[i].photos[0].html_attributions[0];
+      var restaurantInfo = $("<p>").html("The rating for this restaurant is: " + rating + ". The price range on a scale of 1 to 4 is: " + price + ". The catrgories this restaurant falls into include: " + type + ". Need Directions? Just follow this link: " + mapLink);
+      restaurantInfo.addClass("card-text");
+      restaurantBodyDiv.append(restaurantInfo);
+
+      //append restaurantbodyDiv to actual div
+      restaurantDiv.append(restaurantBodyDiv);
+
+      $("#contentDisplay").prepend(restaurantDiv);
+
+      
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+      // //Restaurant Icon 
+      // var restaurantImageDiv = $("<div>");
+      // var restaurantImage = $("<img>");
+
+      // restaurantImage.attr("src", restaurants[i].icon);
+      // restaurantImageDiv.append(restaurantImage);
+
+      // $(".contentImage").prepend(restaurantImageDiv);
+
+      // //Restaurant Name
+      // var restaurantNameDiv = $("<div>");
+
+      // var name = restaurants[i].name;
+      // var h1 = $("<h3>").text("Name: " + name);
+
+      // restaurantNameDiv.append(h1);
+      // $("#contentTitle").prepend(restaurantNameDiv);
+
+      // //Restaurant Open
+      // var restaurantOpenDiv = $("<div>");
+
+      // var open = restaurants[i].opening_hours.open_now;
+      // var h2 = $("<h4>").text("Open Now: " + open);
+
+      // restaurantOpenDiv.append(h2);
+      // $("#contentInfo").prepend(restaurantOpenDiv)
+
+      // //Restaurant Info
+      // var restaurantInfoDiv = $("<div>");
+
+      // var rating = restaurants[i].rating;
+      // var price = restaurants[i].price_level;
+      // var type = restaurants[i].types[0,1,2,3];
+
+      // var h3 = $("<h6>").text("Rating: " + rating);
+      // var h4 = $("<h6>").text("Price: " + price);
+      // var h5 = $("<h6>").text("Type: " + type);
+
+      // restaurantInfoDiv.append(h3);
+      // restaurantInfoDiv.append(h4);
+      // restaurantInfoDiv.append(h5);
+      // $("#contentDescription").prepend(restaurantInfoDiv);
+
+      // //Restaurant Map Link
+      // var restaurantMapLink = $("<div>");
+
+      // var mapLink = restaurants[i].photos[0].html_attributions[0];
+      // var p = $("<p>").html("Link to Directions : " + mapLink);
+
+      // restaurantMapLink.append(p);
+      // $("#directionsLink").prepend(restaurantMapLink);  
     }
   });
 });
