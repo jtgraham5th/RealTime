@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html> 
+<html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,20 +8,19 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles/reset.css">
-
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
-    type="text/javascript" charset="utf-8"></script>
-    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
-    type="text/javascript" charset="utf-8"></script>
-
+    <style>
+        #map {
+            height: 100%;
+        }
+    </style>
 
     <!-- BootStrap Link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <!-- LINK TO JQUERY LIBRARY -->
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Link to Weather widget -->
     <!-- <script type='text/javascript' src='https://darksky.net/widget/default/33.7491,-84.3902/us12/en.js?width=100%&height=350&title=Atlanta, ga&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script> -->
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row">
             <div class="jumbotron" style="height: 15rem">
-                
+
                 <h1 class="display-4">Welcome to RealTime!</h1>
                 <!-- <h3 class="text-center" id="currentTime"></h3> -->
                 <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
@@ -42,11 +42,24 @@
                     forecast,
                     places nearby, things to do, current events, and even local news! Click a button to get started!</p>
             </div>
+            <div style="padding:12px;background:#ccc;margin-bottom:12px">
+            <select name="country" class="countries" id="countryId">
+                <option value="">Select Country</option>
+            </select>
+            <select name="state" class="states" id="stateId">
+                <option value="">Select State</option>
+            </select>
+            <select name="city" class="cities" id="cityId">
+                <option value="">Select City</option>
+            </select>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="https://geodata.solutions/includes/countrystatecity.js"></script>
+            </div>
         </div>
         <div class="row">
             <div class="col-8">
                 <div class="card" style="height: 25rem">
-                    <div style="width: 640px; height: 480px" id="mapContainer"></div>
+                    <div style="width: 100%; height: 480px" id="map"></div>
                     <div class="card-body">
                         <h5 class="card-title">You are here!</h5>
                         <p class="card-text">This is where you are currently located based on your geolocation!</p>
@@ -68,7 +81,7 @@
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
                     id="restaurantsButton">
-                    Restaurants 
+                    Restaurants
                 </button></div>
             <div class="col text-center">
                 <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
@@ -102,7 +115,48 @@
     </div>
 
     <!-- LINK TO JAVASCRIPT -->
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA&callback=initMap"
+    ></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA&v=3&callback=initMap"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+        // if (navigator.geolocation) {
+        //     console.log("Enter IF block");
+        //     navigator.geolocation.getCurrentPosition(showPosition);
+        //     initMap();
+        // } else {
+        //     console.log("Enter ELSE block");
+        //     x.innerHTML = "Geolocation is not supported by this browser.";
+        // // };
+        // var map;
+
+        // Page Loads
+        // You ask the user for their location. 
+        // navigator.geolocation.getCurrentPosition(showPosition);
+
+        // function showPosition(position) {
+        //     console.log("Enter SHOW POSITION");
+        //     startLat = position.coords.latitude;
+        //     startLong = position.coords.longitude;
+        //     console.log(startLat);
+        //     console.log(startLong);
+        //     initMap();
+        // };
+
+        // function initMap() {
+        //     console.log("Enter INITMAP");
+        //     console.log(startLat);
+        //     console.log(startLong);
+        //     map = new google.maps.Map(document.getElementById('map'), {
+        //         center: { lat: startLat, lng: startLong },
+        //         zoom: 16
+        //     });
+        // }
+    </script>
+
+
 </body>
 
 
