@@ -8,37 +8,23 @@ var shortCountry;
 var longCountry;
 var zip;
 var placeType = "restaurant"
-var platform = new H.service.Platform({
-  'apikey': 'RH9YlLdRRfpLaefvUoLl'
 
-});
-
-var maptypes = platform.createDefaultLayers();
-
-    // Instantiate (and display) a map object:
-    var map = new H.Map(
-    document.getElementById('mapContainer'),
-    maptypes.vector.normal.map,
-    {
-      zoom: 10,
-      center: { lng: 13.4, lat: 52.51 }
-    });
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-} else {
-  x.innerHTML = "Geolocation is not supported by this browser.";
-};
-
-
-
-
+navigator.geolocation.getCurrentPosition(showPosition);
 
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
     console.log(latitude);
-    console.log(longitude)
-
+    console.log(longitude);
+    initMap();
+ 
+  function initMap() {
+      console.log("Enter INITMAP");
+      map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: latitude, lng: longitude },
+          zoom: 16
+      });
+  }
 
 $("#hello").addClass("bg-danger");
 // var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
@@ -53,19 +39,6 @@ $("#hello").addClass("bg-danger");
 //   console.log(response);
 // });
 
-//-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
-//----Status: WORKING---------
-var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
-var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
-
-$.ajax({
-    url: mapQueryURL,
-    method: "GET"
-}).then(function(response) {
-
-    console.log(response);
-
-  });
   //-----------Weather API----------
   //----Status: WORKING---------
   //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api" 
@@ -405,3 +378,6 @@ function getLocation() {
 //   var time = hour + ":" + date.getMinutes() + " " + amPm;
 //   console.log(time);
 //   return time;
+
+______
+
