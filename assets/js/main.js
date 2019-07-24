@@ -8,6 +8,7 @@ var shortCountry;
 var longCountry;
 var zip;
 var placeType = "restaurant"
+
 var platform = new H.service.Platform({
   'apikey': 'RH9YlLdRRfpLaefvUoLl'
 
@@ -53,12 +54,22 @@ var Counter = 0;
 //This function will send the information to the firebase
 
 
+navigator.geolocation.getCurrentPosition(showPosition);
+
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
     console.log(latitude);
-    console.log(longitude)
-
+    console.log(longitude);
+    initMap();
+ 
+  function initMap() {
+      console.log("Enter INITMAP");
+      map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: latitude, lng: longitude },
+          zoom: 16
+      });
+  }
 
   //-----------Weather API----------
   //----Status: WORKING---------
@@ -263,3 +274,4 @@ function getLocation() {
   //   x.innerHTML = "Latitude: " + position.coords.latitude + 
   //   "<br>Longitude: " + position.coords.longitude;
 }
+
