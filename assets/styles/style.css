@@ -1,6 +1,8 @@
 body{
     background-image: url("../images/world.jpg");
     background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     
 }
 .jumbotron{
@@ -8,8 +10,8 @@ body{
     color:white;
 }
 .card{
-    background-color: transparent;
-    color: white;
+    background-color: white;
+    color: black;
 }
 #buttons{
     align-self: center;
@@ -17,7 +19,7 @@ body{
 #contentDisplay{
     color: white;
 }
-.card-img-top{
-    height: 15rem;
-    width: 15rem;
+#weather-table{
+    color: red;
+    background-color: blue;
 }
