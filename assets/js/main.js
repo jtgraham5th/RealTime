@@ -110,7 +110,6 @@ $.ajax({
           console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
         }
       });
-  });
 
 
   //-----------Google Places API----------
