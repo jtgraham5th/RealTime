@@ -54,8 +54,9 @@ $.ajax({
   }
 
 });
-
-  
+    //-----------Weather API----------
+    //----Status: WORKING---------
+    //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api"   
   var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
   $.ajax({
     url: reverseGeocodingQueryURL,
@@ -72,55 +73,17 @@ $.ajax({
       method: "GET"
     })
       .then(function (response) {
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < 40; i += 8) {
           //appended the weather app to display in the table, should display description, time, and day
-          $("#weatherbody").append("<tr>" + '<th scope="row">' + `${i + 1}` + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "</tr>")
+          var weatherDate = moment.unix(response.list[i].dt).format("ddd, MMM D")
+          
+          $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon +"@2x.png' class='w-50'>" + "</td>" + "</tr>")
           console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
           console.log(response)
         }
       });
     })
-    
-    
-    $("#hello").addClass("bg-danger");
-    // var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
-    // $.ajax({
-    //   url: hotelQueryUrl,
-    //   headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
-    // //   "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
-    // },
-    //   method: "GET"
-    // }).then(function(response) {
-    //   console.log(response);
-    // });
-    
-    
-    //-----------Weather API----------
-    //----Status: WORKING---------
-    //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api" 
-    var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
-    $.ajax({
-      url: reverseGeocodingQueryURL,
-      method: "GET"
-    }).then(function (response) {
-      zip = response.results[0].address_components[0].long_name;
-      shortCountry = response.results[0].address_components[4].short_name;
-      console.log("Country: " + shortCountry);
-      console.log("ZIP: " + zip);
-      var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
-      // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
-      $.ajax({
-        url: weatherGEOqueryURL,
-        method: "GET"
-      })
-        .then(function (response) {
-          for (i = 0; i < 5; i++) {
-            console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
-          }
-        });
-    });
-    
-    
+
     //-----------Google Places API----------
     //----Status: WORKING-------------------
     //----Comments: Moved to Google Places API because yelp API does not allow authentication with javascript
@@ -329,7 +292,7 @@ $("#currentEventsButton").on("click", function () {
         //create img tag for top card image with a class of card-img-top and id of cardImage
         var restaurantImage = $("<img>");
         restaurantImage.attr("src", restaurants[i].icon);
-        restaurantImage.addClass("card-img-top");
+        restaurantImage.addClass("card-img-top w-25 mt-4");
         restaurantImage.attr("id", "cardImage");
         restaurantDiv.append(restaurantImage);
    
