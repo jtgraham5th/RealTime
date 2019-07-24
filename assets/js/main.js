@@ -28,6 +28,13 @@ if (navigator.geolocation) {
     x.innerHTML = "Geolocation is not supported by this browser.";
   };
 
+  
+
+
+
+
+
+
 
 
 
@@ -40,14 +47,64 @@ function showPosition(position) {
 
 
 $("#hello").addClass("bg-danger");
-// var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
+
+
+var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+$.ajax({
+  url: hotelQueryURL,
+  method: "GET"
+}).then(function (response) {
+  // on click function to redirect to another page for "Places to Stay"
+  // var results = response.data;
+  for (i=1; i < 5; i++) {
+
+    console.log(response)
+    var hotelName = response.results[i].name;
+    var hotelPhoto = response.results[i].photos[0].html_attributions[0];
+    var vicinity = response.results[i].vicinity;
+    var rating = response.results[i].rating;
+    
+
+    console.log(hotelName);
+    console.log(hotelPhoto);
+    console.log(vicinity);
+    console.log(rating);
+
+
+  }
+
+});
+
+
+
+// Hotel API Not working
+// unable to pull console.log response 
+
+
+// create 3 separate URL for Hotel Search, Hotel, Details
+
 
 // $.ajax({
 //   url: hotelQueryUrl,
-//   headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
-// //   "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
+//   headers: {
+//   "X-RapidAPI-Key": "69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df",
+//   "X-RapidAPI-Host": "apidojo-kayak-v1.p.rapidapi.com",
 // },
 //   method: "GET"
+// }).then(function(response) {
+//   console.log(response);
+// });
+
+
+//////////////////////////////////////////////
+
+// $.ajax({
+//   url: hotelQueryUrl,
+//   headers: {
+//   "X-RapidAPI-Key": "69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df",
+//   "X-RapidAPI-Host": "apidojo-booking-v1.p.rapidapi.com",
+// },
+//   method: "POST"
 // }).then(function(response) {
 //   console.log(response);
 // });
