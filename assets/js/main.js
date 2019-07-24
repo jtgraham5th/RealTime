@@ -15,14 +15,14 @@ var platform = new H.service.Platform({
 
 var maptypes = platform.createDefaultLayers();
 
-    // Instantiate (and display) a map object:
-    var map = new H.Map(
-    document.getElementById('mapContainer'),
-    maptypes.vector.normal.map,
-    {
-      zoom: 10,
-      center: { lng: 13.4, lat: 52.51 }
-    });
+// Instantiate (and display) a map object:
+var map = new H.Map(
+  document.getElementById('mapContainer'),
+  maptypes.vector.normal.map,
+  {
+    zoom: 10,
+    center: { lng: 13.4, lat: 52.51 }
+  });
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(showPosition);
 } else {
@@ -34,34 +34,34 @@ if (navigator.geolocation) {
 
 
 function showPosition(position) {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-    console.log(latitude);
-    console.log(longitude)
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
+  console.log(latitude);
+  console.log(longitude)
 
 
-$("#hello").addClass("bg-danger");
-// var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
+  $("#hello").addClass("bg-danger");
+  // var hotelQueryUrl = "https://apidojo-booking-v1.p.rapidapi.com/properties/get-static-map?currency_code=USD&languagecode=en-us&width=720&longitude=106.663626&zoom=18&latitude=10.807570&height=280"
 
-// $.ajax({
-//   url: hotelQueryUrl,
-//   headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
-// //   "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
-// },
-//   method: "GET"
-// }).then(function(response) {
-//   console.log(response);
-// });
+  // $.ajax({
+  //   url: hotelQueryUrl,
+  //   headers: { "Authorization " : "X-RapidAPI-Key 69c5a22958msha081cb7aec1bbefp14a635jsn8d2e4bd970df"
+  // //   "X-RapidAPI-Host apidojo-kayak-v1.p.rapidapi.com",
+  // },
+  //   method: "GET"
+  // }).then(function(response) {
+  //   console.log(response);
+  // });
 
-//-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
-//----Status: WORKING---------
-var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
-var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
+  //-----------Map API----------GOOGLE Maps API KEY AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA
+  //----Status: WORKING---------
+  var mapQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?co=united%20states&z=17&i=1&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA&ci=Atlanta&s=downing%20street&n=10&w=400";
+  var latitudeQueryURL = "https://image.maps.api.here.com/mia/1.6/mapview?c=52.5159%2C13.3777&z=14&app_id=RH9YlLdRRfpLaefvUoLl&app_code=2psNpgHEU7JEcQ9sIBaPhA"
 
-$.ajax({
+  $.ajax({
     url: mapQueryURL,
     method: "GET"
-}).then(function(response) {
+  }).then(function (response) {
 
     console.log(response);
 
@@ -125,6 +125,13 @@ $.ajax({
 
     }
   });
+
+
+
+
+
+
+
   //----------News API-----------
   var searchnewarea = $(this).attr("value")
   var apiKey = "";
@@ -172,9 +179,10 @@ var Counter = 0;
 var weatherimg = $("")
 
 
-
-$("#weather-table").on("click", function(){
-  console.warn("You clicked a button");
+//weather on click function to show 7 day focast
+$("#weather-table").on("click" ,function () {
+  console.log("ready");
+  $("#weatherbody").empty
   var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
   $.ajax({
     url: reverseGeocodingQueryURL,
@@ -191,16 +199,39 @@ $("#weather-table").on("click", function(){
       method: "GET"
     })
       .then(function (response) {
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 7; i++) {
           //appended the weather app to display in the table, should display description, time, and day
-          $("#day" + i).append("<tr>" + "<th> " + "<td> " + response.list[i].weather[0].description + " </td>" + " <td>" + response.list[i].dt_txt +  "</td>" + "</th>" +  "</tr>")
-    
+          $("#weatherbody").append("<tr>" + '<th scope="row">'+`${i + 1}` + "</th>" + "<td>" + response.list[i].weather[0].description +  "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "</tr>")
+
           console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
           console.log(response)
         }
       });
+      
   });
+
+
+  // for (i = 0; i < 8; i++) {
+  //   // console.log("Weather: " + response.results[i])
+  //   // console.log(response)
+
+  //   var weatherDiv = $("<div>");
+  //   weatherDiv.addClass("card");
+  //   weatherDiv.addClass("col-sm-3");
+
+  //   var weatherImage = $("<img>");
+  //   weatherImage.attr("src", list.weather[i].icon);
+  //   weatherImage.addClass("card-img-top");
+  //   weatherImage.attr("id", "cardImage");
+  //   weatherDiv.append(weatherImage);
+
+  //   $("#weather-table").prepend(weatherDiv)
+
+
+
+  // }
 })
+
 
 $("#currentEventsButton").on("click", function () {
   console.warn("You clicked a button");
@@ -213,6 +244,8 @@ $("#currentEventsButton").on("click", function () {
   }).then(function (response) {
     console.log(response)
 
+    // var events = response.events;
+
     //instead of using console log use jquery
     for (i = 0; i < 5; i++) {
       console.log("Event #" + i + "-----")
@@ -220,7 +253,14 @@ $("#currentEventsButton").on("click", function () {
       console.log("Date: " + response.events[i].start.local);
       console.log(response.events[i].venue.address);
 
+      // console.log(events);
+
+      // var eventsdiv = $("<div>");
+      // eventsdiv.addClass("card");
+      // eventsDiv.addClass("col-sm-3");
     }
+
+  
   });
 });
 //on click function will show you local hot spots
@@ -271,16 +311,128 @@ $("#localButton").on("click", function () {
 });
 //on click function will show you the restaurants in the area
 $("#restaurantsButton").on("click", function () {
-  console.warn("You clicked this button");
+  console.warn("You selected Resetaurants");
   var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
   $.ajax({
     url: placesQueryURL,
     method: "GET"
   }).then(function (response) {
     // on click function to redirect to another page for "Places to Stay"
+    // var results = response.data;
 
-    for (i = 0; i < 5; i++) {
-      console.log("Restaurant: " + response.results[i].name)
+    var restaurants = response.results;
+
+    for (i = 0; i < 8; i++) {
+      // console.log("Restaurant: " + response.results[i])
+      console.log(restaurants[i])
+
+      //create a div restaurantDiv
+      var restaurantDiv = $("<div>");
+      restaurantDiv.addClass("card");
+      restaurantDiv.addClass("col-sm-3");
+
+      // var restaurantImage = $("<img>");
+      // restaurantImage.attr("src", restaurants[i].icon);
+      // restaurantImage.addClass("card-img-top");
+      // restaurantImage.attr("id", "cardImage");
+      // restaurantDiv.append(restaurantImage);
+
+      //create a second div for the body. with a class of card-body
+      var restaurantBodyDiv = $("<div>");
+      restaurantBodyDiv.addClass("card-body");
+      //
+      restaurantBodyDiv.append("<h1 class='card-title'>" + restaurants[i].name + "</h1>");
+      //Display for if the restaurant is open
+      var open = restaurants[i].opening_hours.open_now;
+      console.log(open)
+      var restaurantOpen = $("<h3>").text("Open Now: " + open);
+      restaurantOpen.addClass("card-subtitle");
+      restaurantBodyDiv.append(restaurantOpen);
+
+      var rating = restaurants[i].rating;
+      var price = restaurants[i].price_level;
+      var type = restaurants[i].types[0];
+      var mapLink = restaurants[i].photos[0].html_attributions[0];
+      var restaurantInfo = $("<p>").html("The rating for this restaurant is: " + rating + ". The price range on a scale of 1 to 4 is: " + price + ". The categories this restaurant falls into include: " + type + ". Need Directions? Just follow this link: " + mapLink);
+      restaurantInfo.addClass("card-text");
+      restaurantBodyDiv.append(restaurantInfo);
+
+      //append restaurantbodyDiv to actual div
+      restaurantDiv.append(restaurantBodyDiv);
+
+      $("#contentDisplay").prepend(restaurantDiv);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // //Restaurant Icon 
+      // var restaurantImageDiv = $("<div>");
+      // var restaurantImage = $("<img>");
+
+      // restaurantImage.attr("src", restaurants[i].icon);
+      // restaurantImageDiv.append(restaurantImage);
+
+      // $(".contentImage").prepend(restaurantImageDiv);
+
+      // //Restaurant Name
+      // var restaurantNameDiv = $("<div>");
+
+      // var name = restaurants[i].name;
+      // var h1 = $("<h3>").text("Name: " + name);
+
+      // restaurantNameDiv.append(h1);
+      // $("#contentTitle").prepend(restaurantNameDiv);
+
+      // //Restaurant Open
+      // var restaurantOpenDiv = $("<div>");
+
+      // var open = restaurants[i].opening_hours.open_now;
+      // var h2 = $("<h4>").text("Open Now: " + open);
+
+      // restaurantOpenDiv.append(h2);
+      // $("#contentInfo").prepend(restaurantOpenDiv)
+
+      // //Restaurant Info
+      // var restaurantInfoDiv = $("<div>");
+
+      // var rating = restaurants[i].rating;
+      // var price = restaurants[i].price_level;
+      // var type = restaurants[i].types[0,1,2,3];
+
+      // var h3 = $("<h6>").text("Rating: " + rating);
+      // var h4 = $("<h6>").text("Price: " + price);
+      // var h5 = $("<h6>").text("Type: " + type);
+
+      // restaurantInfoDiv.append(h3);
+      // restaurantInfoDiv.append(h4);
+      // restaurantInfoDiv.append(h5);
+      // $("#contentDescription").prepend(restaurantInfoDiv);
+
+      // //Restaurant Map Link
+      // var restaurantMapLink = $("<div>");
+
+      // var mapLink = restaurants[i].photos[0].html_attributions[0];
+      // var p = $("<p>").html("Link to Directions : " + mapLink);
+
+      // restaurantMapLink.append(p);
+      // $("#directionsLink").prepend(restaurantMapLink);  
     }
   });
 });
@@ -314,11 +466,11 @@ function startTime() {
   m = checkTime(m);
   s = checkTime(s);
   document.getElementById('txt').innerHTML =
-  h + ":" + m + ":" + s;
+    h + ":" + m + ":" + s;
   var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
   return i;
 }
 
@@ -326,15 +478,4 @@ function checkTime(i) {
 
 
 
-// function timeFormatter(dateTime){
-//   var date = newDate(dateTime);
-//   if (date.getHours()>=12){
-//       var hour = parseInt(date.getHours()) - 12;
-//       var amPm = "PM";
-//   } else {
-//       var hour = date.getHours(); 
-//       var amPm = "AM";
-//   }
-//   var time = hour + ":" + date.getMinutes() + " " + amPm;
-//   console.log(time);
-//   return time;
+

@@ -24,6 +24,15 @@
     <!-- Link to Weather widget -->
     <!-- <script type='text/javascript' src='https://darksky.net/widget/default/33.7491,-84.3902/us12/en.js?width=100%&height=350&title=Atlanta, ga&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script> -->
     <link rel="stylesheet" href="assets/styles/style.css">
+
+
+
+    
+
+
+
+
+
 </head>
 
 <body onload="startTime()">
@@ -69,35 +78,35 @@
 
                         <table class="table table-sm table-dark" id="weather-table">
                             <thead>
-                                <tr>
+                                <tr id="tablerow">
                                     <th scope="col">Day</th>
                                     <th scope="col">Weather</th>
                                     <th scope="col">Time</th>
                                     <!-- <th scope="col">Time</th> -->
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="weatherbody">
 
-                                <tr>
-                                    <th scope="row" id="day1">1</th>
+                                <!-- <tr id="day1">
 
-                                </tr>
-                                <tr>
-                                    <th scope="row" id="day2">2</th>
 
                                 </tr>
-                                <tr>
-                                    <th scope="row" id="day3">3</th>
+                                <tr id="day2">
+
 
                                 </tr>
-                                <tr>
-                                    <th scope="row" id="day4">4</th>
+                                <tr id="day3">
+
 
                                 </tr>
-                                <tr>
-                                    <th scope="row" id="day5">5</th>
+                                <tr id="day4">
+
 
                                 </tr>
+                                <tr id="day5">
+
+
+                                </tr> -->
                             </tbody>
                         </table>
                         <!-- <h5 class="card-title" id="weather">10-Day Forecast</h5>
@@ -135,12 +144,15 @@
                 </button></div>
         </div>
         <br>
-        <div class="row">
-            <div class="col text-center">
-                <div id="contentDisplay">
-                    <h1>This is where the desired content will be displayed</h1>
-                </div>
-            </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row" id="contentDisplay">
+
+        </div>
+        <div class="row" id="contentDisplay2">
+
         </div>
     </div>
 
