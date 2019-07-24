@@ -19,3 +19,7 @@ body{
 #contentDisplay{
     color: white;
 }
+#weather-table{
+    color: red;
+    background-color: blue;
+}

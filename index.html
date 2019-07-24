@@ -8,11 +8,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles/reset.css">
-    <style>
-        #map {
-            height: 100%;
-        }
-    </style>
+
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+
 
     <!-- BootStrap Link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -25,13 +24,24 @@
     <!-- Link to Weather widget -->
     <!-- <script type='text/javascript' src='https://darksky.net/widget/default/33.7491,-84.3902/us12/en.js?width=100%&height=350&title=Atlanta, ga&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script> -->
     <link rel="stylesheet" href="assets/styles/style.css">
+
+
+
+    
+
+
+
+
+
 </head>
 
-<body>
+<body onload="startTime()">
     <div class="container">
         <div class="row">
             <div class="jumbotron" style="height: 15rem">
-
+                <!-- //added a clock function -->
+               
+                <div id="txt"></div>
                 <h1 class="display-4">Welcome to RealTime!</h1>
                 <!-- <h3 class="text-center" id="currentTime"></h3> -->
                 <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
@@ -42,6 +52,9 @@
                     forecast,
                     places nearby, things to do, current events, and even local news! Click a button to get started!</p>
             </div>
+            <br>
+            <br>
+            <br>
             <div style="padding:12px;background:#ccc;margin-bottom:12px">
             <select name="country" class="countries" id="countryId">
                 <option value="">Select Country</option>
@@ -56,6 +69,8 @@
             <script src="https://geodata.solutions/includes/countrystatecity.js"></script>
             </div>
         </div>
+        <br>
+        <br>
         <div class="row">
             <div class="col-8">
                 <div class="card" style="height: 25rem">
@@ -68,10 +83,53 @@
             </div>
             <div class="col-4">
                 <div class="card" style="height: 25rem">
-                    <img src="assets/images/weather.jpg" class="card-img-top" alt="weather">
+                    <!-- <img src="assets/images/weather.jpg" class="card-img-top" alt="weather"> -->
                     <div class="card-body">
-                        <h5 class="card-title">10-Day Forecast</h5>
-                        <p class="card-text">Weather for the next 10 days!</p>
+                        <!-- <table class="table table-hover" id="weather-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Day</th>
+                                    <th class="text-center">Weather</th>
+                                    <th class="text-center">Time</th>
+                                </tr>
+                            </thead>
+                        </table> -->
+
+                        <table class="table table-sm table-dark" id="weather-table">
+                            <thead>
+                                <tr id="tablerow">
+                                    <th scope="col">Day</th>
+                                    <th scope="col">Weather</th>
+                                    <th scope="col">Time</th>
+                                    <!-- <th scope="col">Time</th> -->
+                                </tr>
+                            </thead>
+                            <tbody id="weatherbody">
+
+                                <!-- <tr id="day1">
+
+
+                                </tr>
+                                <tr id="day2">
+
+
+                                </tr>
+                                <tr id="day3">
+
+
+                                </tr>
+                                <tr id="day4">
+
+
+                                </tr>
+                                <tr id="day5">
+
+
+                                </tr> -->
+                            </tbody>
+                        </table>
+                        <!-- <h5 class="card-title" id="weather">10-Day Forecast</h5>
+                        <p class="card-text" id="weather2">Weather for the next 10 days!</p> -->
                     </div>
                 </div>
             </div>
@@ -110,7 +168,10 @@
         <br>
         <br>
         <div class="row" id="contentDisplay">
-                 
+
+        </div>
+        <div class="row" id="contentDisplay2">
+
         </div>
     </div>
 
@@ -122,38 +183,7 @@
     <script src="assets/js/main.js"></script>
 
     <script>
-        // if (navigator.geolocation) {
-        //     console.log("Enter IF block");
-        //     navigator.geolocation.getCurrentPosition(showPosition);
-        //     initMap();
-        // } else {
-        //     console.log("Enter ELSE block");
-        //     x.innerHTML = "Geolocation is not supported by this browser.";
-        // // };
-        // var map;
-
-        // Page Loads
-        // You ask the user for their location. 
-        // navigator.geolocation.getCurrentPosition(showPosition);
-
-        // function showPosition(position) {
-        //     console.log("Enter SHOW POSITION");
-        //     startLat = position.coords.latitude;
-        //     startLong = position.coords.longitude;
-        //     console.log(startLat);
-        //     console.log(startLong);
-        //     initMap();
-        // };
-
-        // function initMap() {
-        //     console.log("Enter INITMAP");
-        //     console.log(startLat);
-        //     console.log(startLong);
-        //     map = new google.maps.Map(document.getElementById('map'), {
-        //         center: { lat: startLat, lng: startLong },
-        //         zoom: 16
-        //     });
-        // }
+       
     </script>
 
 
