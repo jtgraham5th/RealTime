@@ -10,7 +10,6 @@ var zip;
 var placeType = "restaurant"
 
 
-
 navigator.geolocation.getCurrentPosition(showPosition);
 
 
@@ -27,6 +26,36 @@ function showPosition(position) {
       zoom: 16
     });
   }
+
+
+
+  var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+$.ajax({
+  url: hotelQueryURL,
+  method: "GET"
+}).then(function (response) {
+  // on click function to redirect to another page for "Places to Stay"
+  // var results = response.data;
+  for (i=1; i < 5; i++) {
+
+    console.log(response)
+    var hotelName = response.results[i].name;
+    var hotelPhoto = response.results[i].photos[0].html_attributions[0];
+    var vicinity = response.results[i].vicinity;
+    var rating = response.results[i].rating;
+    
+
+    console.log(hotelName);
+    console.log(hotelPhoto);
+    console.log(vicinity);
+    console.log(rating);
+
+
+  }
+
+});
+
+  
   var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
   $.ajax({
     url: reverseGeocodingQueryURL,
