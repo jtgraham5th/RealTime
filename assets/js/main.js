@@ -10,7 +10,6 @@ var zip;
 var placeType = "restaurant"
 
 
-
 navigator.geolocation.getCurrentPosition(showPosition);
 
 
@@ -27,13 +26,44 @@ function showPosition(position) {
       zoom: 16
     });
   }
+
+
+
+  var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+$.ajax({
+  url: hotelQueryURL,
+  method: "GET"
+}).then(function (response) {
+  // on click function to redirect to another page for "Places to Stay"
+  // var results = response.data;
+  for (i=1; i < 5; i++) {
+
+    console.log(response)
+    var hotelName = response.results[i].name;
+    var hotelPhoto = response.results[i].photos[0].html_attributions[0];
+    var vicinity = response.results[i].vicinity;
+    var rating = response.results[i].rating;
+    
+
+    console.log(hotelName);
+    console.log(hotelPhoto);
+    console.log(vicinity);
+    console.log(rating);
+
+
+  }
+
+});
+    //-----------Weather API----------
+    //----Status: WORKING---------
+    //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api"   
   var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
   $.ajax({
     url: reverseGeocodingQueryURL,
     method: "GET"
   }).then(function (response) {
     zip = response.results[0].address_components[0].long_name;
-    shortCountry = response.results[0].address_components[4].short_name;
+    shortCountry = response.results[0].address_components[3].short_name;
     console.log("Country: " + shortCountry);
     console.log("ZIP: " + zip);
     var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
@@ -43,30 +73,34 @@ function showPosition(position) {
       method: "GET"
     })
       .then(function (response) {
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < 40; i += 8) {
           //appended the weather app to display in the table, should display description, time, and day
-          $("#weatherbody").append("<tr>" + '<th scope="row">' + `${i + 1}` + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "</tr>")
+          var weatherDate = moment.unix(response.list[i].dt).format("ddd, MMM D")
+          
+          $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon +"@2x.png' class='w-50'>" + "</td>" + "</tr>")
           console.log("Day " + i + " Weather: " + response.list[i].weather[0].description + " / " + response.list[i].dt_txt)
           console.log(response)
         }
       });
-  })
+    })
 
-
-  //-----------Weather API----------
-  //----Status: WORKING---------
-  //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api" 
-  var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
-  $.ajax({
-    url: reverseGeocodingQueryURL,
-    method: "GET"
-  }).then(function (response) {
-    zip = response.results[0].address_components[0].long_name;
-    shortCountry = response.results[0].address_components[4].short_name;
-    console.log("Country: " + shortCountry);
-    console.log("ZIP: " + zip);
-    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
-    // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
+    //-----------Google Places API----------
+    //----Status: WORKING-------------------
+    //----Comments: Moved to Google Places API because yelp API does not allow authentication with javascript
+    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+    $.ajax({
+      url: placesQueryURL,
+      method: "GET"
+    }).then(function (response) {
+      // on click function to redirect to another page for "Places to Stay"
+      for (i = 0; i < 5; i++) {
+        console.log("Restaurant: " + response.results[i].name)
+      }
+    });
+    //----------Events API---------
+    //----Status: WORKING----------
+    //----Comments: Used Public API Key, May want to include option to set dates of events listed
+    var eventsQueryURL = "https://www.eventbriteapi.com/v3/events/search/";
     $.ajax({
       url: weatherGEOqueryURL,
       method: "GET"
@@ -223,97 +257,110 @@ $("#localButton").on("click", function () {
 //----Comments: Used Public API Key, May want to include option to set dates of events listed
 
 // On click button that allows the user to find resturants they may like
-$("#restaurantsButton").on("click", function () {
-  console.warn("You selected Resetaurants");
-
-  //Clear the content display div
-  $("#contentDisplay").empty();
-
-  //Google Places API
-  var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-  $.ajax({
-    url: placesQueryURL,
-    method: "GET"
-  }).then(function (response) {
-
-    //create variable to store restaurants database reponse
-    var restaurants = response.results;
-
-    //for loop to create the cards in the content display div with the restaurants info
-    for (i = 0; i < 8; i++) {
-
-      //create a div restaurantDiv
-      var restaurantDiv = $("<div>");
-      restaurantDiv.addClass("card");
-      restaurantDiv.addClass("col-sm-3");
-
-      //create img tag for top card image with a class of card-img-top and id of cardImage
-      var restaurantImage = $("<img>");
-      restaurantImage.attr("src", restaurants[i].icon);
-      restaurantImage.addClass("card-img-top");
-      restaurantImage.attr("id", "cardImage");
-      restaurantDiv.append(restaurantImage);
-
-      //create a second div for the body. with a class of card-body
-      var restaurantBodyDiv = $("<div>");
-      restaurantBodyDiv.addClass("card-body");
-
-      //append restaurant name to the body div with the class card-title
-      restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
-
-      //create paragraph to hold the open status with the class of card-subtitle
-      var open = restaurants[i].opening_hours.open_now;
-      console.log(open)
-      var restaurantOpen = $("<p>").text("Open Now: " + open);
-      restaurantOpen.addClass("card-subtitle");
-      restaurantBodyDiv.append(restaurantOpen);
-
-      //create variables to hold rating, price level, type, and google maps link
-      var rating = restaurants[i].rating;
-      var price = restaurants[i].price_level;
-      var type = restaurants[i].types[0];
-      var mapLink = restaurants[i].photos[0].html_attributions[0];
-
-      //create variable to hold all above info and create paragraph with that info
-      var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
-      restaurantInfo.addClass("card-text");
-      restaurantBodyDiv.append(restaurantInfo);
-
-      //append restaurantbodyDiv to actual div
-      restaurantDiv.append(restaurantBodyDiv);
-
-      //prepend all information to content display div
-      $("#contentDisplay").prepend(restaurantDiv);
-    }
-  });
-});
-
-//pushes information to firebase.database
-database.ref().on("value", function (snapshot) {
-  console.log(snapshot.val());
-  Counter = snapshot.val().clickCounter;
-}), function (errorObject) {
-  console.log("The read failed: " + errorObject.code);
-}
-//Get Location by using Geolocation
-var x = document.getElementById("demo");
-function getLocation() {
-  //   x.innerHTML = "Latitude: " + position.coords.latitude + 
-  //   "<br>Longitude: " + position.coords.longitude;
-}
-//function for continous clock
-function startTime() {
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  m = checkTime(m);
-  s = checkTime(s);
-  document.getElementById('txt').innerHTML =
-    h + ":" + m + ":" + s;
-  var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-  if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
-  return i;
-}
+  $("#restaurantsButton").on("click", function () {
+    console.warn("You selected Resetaurants");
+   
+    //Clear the content display div
+    $("#contentDisplay").empty();
+   
+    //Google Places API
+    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+    $.ajax({
+      url: placesQueryURL,
+      method: "GET"
+    }).then(function (response) {
+   
+      //create variable to store restaurants database reponse
+      var restaurants = response.results;
+   
+      //for loop to create the cards in the content display div with the restaurants info
+      for (i = 0; i < 8; i++) {
+   
+        //create a div restaurantDiv
+        var restaurantDiv = $("<div>");
+        restaurantDiv.addClass("card");
+        restaurantDiv.addClass("col-sm-3");
+   
+        //create img tag for top card image with a class of card-img-top and id of cardImage
+        var restaurantImage = $("<img>");
+        restaurantImage.attr("src", restaurants[i].icon);
+        restaurantImage.addClass("card-img-top w-25 mt-4");
+        restaurantImage.attr("id", "cardImage");
+        restaurantDiv.append(restaurantImage);
+   
+        //create a second div for the body. with a class of card-body
+        var restaurantBodyDiv = $("<div>");
+        restaurantBodyDiv.addClass("card-body");
+   
+        //append restaurant name to the body div with the class card-title
+        restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
+   
+        //create paragraph to hold the open status with the class of card-subtitle
+        var open = restaurants[i].opening_hours.open_now;
+        console.log(open)
+        var restaurantOpen = $("<p>").text("Open Now: " + open);
+        restaurantOpen.addClass("card-subtitle");
+        restaurantBodyDiv.append(restaurantOpen);
+   
+        //create variables to hold rating, price level, type, and google maps link
+        var rating = restaurants[i].rating;
+        var price = restaurants[i].price_level;
+        var type = restaurants[i].types[0];
+        var mapLink = restaurants[i].photos[0].html_attributions[0];
+   
+        //create variable to hold all above info and create paragraph with that info
+        var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
+        restaurantInfo.addClass("card-text");
+        restaurantBodyDiv.append(restaurantInfo);
+   
+        //append restaurantbodyDiv to actual div
+        restaurantDiv.append(restaurantBodyDiv);
+   
+        //prepend all information to content display div
+        $("#contentDisplay").prepend(restaurantDiv);
+      }
+    });
+   });
+  
+  //pushes information to firebase.database
+  database.ref().on("value", function (snapshot) {
+    console.log(snapshot.val());
+    Counter = snapshot.val().clickCounter;
+  }), function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  }
+  //Get Location by using Geolocation
+  var x = document.getElementById("demo");
+  function getLocation() {
+    //   x.innerHTML = "Latitude: " + position.coords.latitude + 
+    //   "<br>Longitude: " + position.coords.longitude;
+  }
+  //function for continous clock
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+      h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+  }
+  function checkTime(i) {
+    if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+    return i;
+  }
+  // function timeFormatter(dateTime){
+  //   var date = newDate(dateTime);
+  //   if (date.getHours()>=12){
+  //       var hour = parseInt(date.getHours()) - 12;
+  //       var amPm = "PM";
+  //   } else {
+  //       var hour = date.getHours(); 
+  //       var amPm = "AM";
+  //   }
+  //   var time = hour + ":" + date.getMinutes() + " " + amPm;
+  //   console.log(time);
+  //   return time;
+  ______
