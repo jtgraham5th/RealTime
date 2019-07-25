@@ -47,10 +47,12 @@ function showPosition(position) {
     url: reverseGeocodingQueryURL,
     method: "GET"
   }).then(function (response) {
+    console.log(response);
     zip = response.results[0].address_components[0].long_name;
     shortCountry = response.results[0].address_components[3].short_name;
-
-    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
+    currentAddress = response.results[0].formatted_address
+    $("#currentAddress").text(currentAddress);
+    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "&appid=bdb30d5ce61beafda3576d082caf2f75"
     // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
     $.ajax({
       url: weatherGEOqueryURL,
@@ -60,8 +62,11 @@ function showPosition(position) {
         for (i = 0; i < 40; i += 8) {
           //appended the weather app to display in the table, should display description, time, and day
           var weatherDate = moment.unix(response.list[i].dt).format("ddd, MMM D")
-
-          $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png' class='w-50'>" + "</td>" + "</tr>")
+          var tempMax = Math.trunc((((response.list[i].main.temp_max) -273.15)*1.8)+32);
+          var tempMin = Math.trunc((((response.list[i].main.temp_min) -273.15)*1.8)+32);
+          
+          console.log(response);
+          $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + "High: " + tempMax + " <br>Low: " + tempMin + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png' class='w-50'>" + "</td>" + "</tr>")
 
         }
       });
