@@ -50,7 +50,7 @@ function showPosition(position) {
     zip = response.results[0].address_components[0].long_name;
     shortCountry = response.results[0].address_components[3].short_name;
 
-    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
+    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
     // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
     $.ajax({
       url: weatherGEOqueryURL,
@@ -152,6 +152,8 @@ function showPosition(position) {
   //on click function will show you local hot spots
   $("#placesToStayButton").on("click", function () {
     console.warn("You clicked a button");
+    //Clear the content display div
+    $("#contentDisplay").empty();
     var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
     $.ajax({
       url: placesQueryURL,
