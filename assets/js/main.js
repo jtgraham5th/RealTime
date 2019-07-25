@@ -39,30 +39,6 @@ function showPosition(position) {
   }
 
 
-
-  var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-  $.ajax({
-    url: hotelQueryURL,
-    method: "GET"
-  }).then(function (response) {
-    // on click function to redirect to another page for "Places to Stay"
-    // var results = response.data;
-    for (i = 1; i < 5; i++) {
-
-      console.log(response)
-      var hotelName = response.results[i].name;
-      var hotelPhoto = response.results[i].photos[0].html_attributions[0];
-      var vicinity = response.results[i].vicinity;
-      var rating = response.results[i].rating;
-
-      console.log(hotelName);
-      console.log(hotelPhoto);
-      console.log(vicinity);
-      console.log(rating);
-
-    }
-
-  });
   //-----------Weather API----------
   //----Status: WORKING---------
   //---Comments: Queries Geocoding via GoogleMaps API to get zipcode then uses zipcode for weathermap api"   
@@ -90,47 +66,6 @@ function showPosition(position) {
         }
       });
   })
-
-  //-----------Google Places API----------
-  //----Status: WORKING-------------------
-  //----Comments: Moved to Google Places API because yelp API does not allow authentication with javascript
-  var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-  $.ajax({
-    url: placesQueryURL,
-    method: "GET"
-  }).then(function (response) {
-    // on click function to redirect to another page for "Places to Stay"
-    for (i = 0; i < 5; i++) {
-
-    }
-  });
-  //----------Events API---------
-  //----Status: WORKING----------
-  //----Comments: Used Public API Key, May want to include option to set dates of events listed
-  var eventsQueryURL = "https://www.eventbriteapi.com/v3/events/search/";
-  $.ajax({
-    url: eventsQueryURL,
-    method: "GET"
-  })
-    .then(function (response) {
-      for (i = 0; i < 5; i++) {
-
-      }
-    });
-
-  //-----------Google Places API----------
-  //----Status: WORKING-------------------
-  //----Comments: Moved to Google Places API because yelp API does not allow authentication with javascript
-  var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-  $.ajax({
-    url: placesQueryURL,
-    method: "GET"
-  }).then(function (response) {
-    // on click function to redirect to another page for "Places to Stay"
-    for (i = 0; i < 5; i++) {
-
-    }
-  });
 
 
   //----------Events API---------
@@ -222,7 +157,7 @@ function showPosition(position) {
       url: placesQueryURL,
       method: "GET"
     }).then(function (response) {
-      console.log(response)
+      
       //create variable to store restaurants database reponse
       var hotel = response.results;
       // on click function to redirect to another page for "Places to Stay"
@@ -243,11 +178,7 @@ function showPosition(position) {
         //append restaurant name to the body div with the class card-title
         hotelBodyDiv.append("<h5 class='card-title'>" + hotel[i].name + "</h5>");
         //create paragraph to hold the open status with the class of card-subtitle
-        // var open = hotel[i].opening_hours.open_now;
-        // console.log(open)
-        // var hotelOpen = $("<p>").text("Open Now: " + open);
-        // hotelOpen.addClass("card-subtitle");
-        // hotelBodyDiv.append(hotelOpen);
+        
         //create variables to hold hotel name, hotel photo, vicinity, and ratings
         var hotelName = response.results[i].name;
         var hotelLink = response.results[i].photos[0].html_attributions[0];
