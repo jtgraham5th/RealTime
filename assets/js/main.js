@@ -62,8 +62,9 @@ $.ajax({
     url: reverseGeocodingQueryURL,
     method: "GET"
   }).then(function (response) {
+    console.log(response);
     zip = response.results[0].address_components[0].long_name;
-    shortCountry = response.results[0].address_components[4].short_name;
+    shortCountry = response.results[0].address_components[3].short_name;
     console.log("Country: " + shortCountry);
     console.log("ZIP: " + zip);
     var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
