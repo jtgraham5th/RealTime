@@ -73,7 +73,7 @@ function showPosition(position) {
   }).then(function (response) {
     zip = response.results[0].address_components[0].long_name;
     shortCountry = response.results[0].address_components[3].short_name;
-  
+
     var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + shortCountry + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
     // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
     $.ajax({
@@ -86,7 +86,7 @@ function showPosition(position) {
           var weatherDate = moment.unix(response.list[i].dt).format("ddd, MMM D")
 
           $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + response.list[i].dt_txt + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png' class='w-50'>" + "</td>" + "</tr>")
-         
+
         }
       });
   })
@@ -101,7 +101,7 @@ function showPosition(position) {
   }).then(function (response) {
     // on click function to redirect to another page for "Places to Stay"
     for (i = 0; i < 5; i++) {
-      
+
     }
   });
   //----------Events API---------
@@ -114,7 +114,7 @@ function showPosition(position) {
   })
     .then(function (response) {
       for (i = 0; i < 5; i++) {
-        
+
       }
     });
 
@@ -128,7 +128,7 @@ function showPosition(position) {
   }).then(function (response) {
     // on click function to redirect to another page for "Places to Stay"
     for (i = 0; i < 5; i++) {
-    
+
     }
   });
 
@@ -154,7 +154,7 @@ function showPosition(position) {
     }).then(function (response) {
 
       //create variable to store events database response
-      
+
       var events = response.events;
 
       //for loop to create the cards in the content display div with the events info
@@ -181,7 +181,7 @@ function showPosition(position) {
 
         //create paragraph to hold date of event with the class of card-subtitle
         var date = response.events[i].start.local;
-       
+
         var dateOfEvent = $("<p>").text("Date: " + date);
         dateOfEvent.addClass("card-subtitle");
         eventsBodyDiv.append(dateOfEvent);
@@ -217,159 +217,197 @@ function showPosition(position) {
   //on click function will show you local hot spots
   $("#placesToStayButton").on("click", function () {
     console.warn("You clicked a button");
-    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
     $.ajax({
       url: placesQueryURL,
       method: "GET"
     }).then(function (response) {
+      console.log(response)
+      //create variable to store restaurants database reponse
+      var hotel = response.results;
       // on click function to redirect to another page for "Places to Stay"
-      for (i = 0; i < 5; i++) {
-        
-      }
-    });
-
-  });
-  // on click function to redirect to another page for "Places to Stay"
-  $("#localButton").on("click", function () {
-    console.warn("You clicked this button");
-    //Clear the content display div
-    $("#contentDisplay").empty();
-    var queryURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e00b92eba88f4067ae9c597f113f0670";
-    $.ajax({
-      url: queryURL,
-      method: "Get"
-    }).then(function (response) {
-      
-
       for (i = 1; i < 9; i++) {
-        
-        //create a div for the news to create a card
-        var newsdiv = $("<div>");
-        newsdiv.addClass("card");
-        newsdiv.addClass("col-sm-3");
-        //create a second div for the body with a class of card-body
-        var newsbodydiv = $("<div>");
-        newsbodydiv.addClass("card-body");
-
-        //append news name to the body div with the class card-title
-        newsbodydiv.append("<h5 class='card-title'>" + response.articles[i].source.name + "</h5>");
-
-        //create text to show the author
-        var newstitle = $("<h5>").text("Source: " + response.articles[i].author);
-        newstitle.addClass("card-title");
-        newsbodydiv.append(newstitle);
-        //create text that shows the title of the article
-        var newsArticle = $("<p>").text("Title: " + response.articles[i].title);
-        newsArticle.addClass("card-subtitle");
-        newsbodydiv.append(newsArticle);
-        //providing the link to the website of the article
-        var newsLink = response.articles[i].url;
-
-        var newsInfo = $("<p>").html(newsLink);
-        newsInfo.addClass("card-text");
-        newsbodydiv.append(newsInfo);
-
-        newsdiv.append(newsbodydiv);
+        //create a div hotelDiv
+        var hotelDiv = $("<div>");
+        hotelDiv.addClass("card");
+        hotelDiv.addClass("col-sm-3");
+        //create img tag for top card image with a class of card-img-top and id of cardImage
+        var hotelImage = $("<img>");
+        hotelImage.attr("src", hotel[i].icon);
+        hotelImage.addClass("card-img-top w-25");
+        hotelImage.attr("id", "cardImage");
+        hotelDiv.append(hotelImage);
+        //create a second div for the body. with a class of card-body
+        var hotelBodyDiv = $("<div>");
+        hotelBodyDiv.addClass("card-body");
+        //append restaurant name to the body div with the class card-title
+        hotelBodyDiv.append("<h5 class='card-title'>" + hotel[i].name + "</h5>");
+        //create paragraph to hold the open status with the class of card-subtitle
+        // var open = hotel[i].opening_hours.open_now;
+        // console.log(open)
+        // var hotelOpen = $("<p>").text("Open Now: " + open);
+        // hotelOpen.addClass("card-subtitle");
+        // hotelBodyDiv.append(hotelOpen);
+        //create variables to hold hotel name, hotel photo, vicinity, and ratings
+        var hotelName = response.results[i].name;
+        var hotelLink = response.results[i].photos[0].html_attributions[0];
+        var vicinity = response.results[i].vicinity;
+        var rating = response.results[i].rating;
+        //create variable to hold all above info and create paragraph with that info
+        var hotelInfo = $("<p>").html("Rating: <br>" + rating + " The name: <br>" + hotelName + " Hotel Link: <br>" + hotelLink + " <br> Address: <br>" + vicinity);
+        hotelInfo.addClass("card-text");
+        hotelBodyDiv.append(hotelInfo);
+        //append hotelbodyDiv to actual div
+        hotelDiv.append(hotelBodyDiv);
         //prepend all information to content display div
-        $("#contentDisplay").prepend(newsdiv);
+        $("#contentDisplay").prepend(hotelDiv);
       }
     });
 
-
-    // On click button that allows the user to find resturants they may like
-    $("#restaurantsButton").on("click", function () {
-      console.warn("You selected Resetaurants");
-
+    // on click function to redirect to another page for "Places to Stay"
+    $("#localButton").on("click", function () {
+      console.warn("You clicked this button");
       //Clear the content display div
       $("#contentDisplay").empty();
-
-      //Google Places API
-      var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+      var queryURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e00b92eba88f4067ae9c597f113f0670";
       $.ajax({
-        url: placesQueryURL,
-        method: "GET"
+        url: queryURL,
+        method: "Get"
       }).then(function (response) {
 
-        //create variable to store restaurants database reponse
-        var restaurants = response.results;
 
-        //for loop to create the cards in the content display div with the restaurants info
-        for (i = 0; i < 8; i++) {
+        for (i = 1; i < 9; i++) {
 
-          //create a div restaurantDiv
-          var restaurantDiv = $("<div>");
-          restaurantDiv.addClass("card");
-          restaurantDiv.addClass("col-sm-3");
+          //create a div for the news to create a card
+          var newsdiv = $("<div>");
+          newsdiv.addClass("card");
+          newsdiv.addClass("col-sm-3");
+          //create a second div for the body with a class of card-body
+          var newsbodydiv = $("<div>");
+          newsbodydiv.addClass("card-body");
 
-          //create img tag for top card image with a class of card-img-top and id of cardImage
-          var restaurantImage = $("<img>");
-          restaurantImage.attr("src", restaurants[i].icon);
-          restaurantImage.addClass("card-img-top w-25 mt-4");
-          restaurantImage.attr("id", "cardImage");
-          restaurantDiv.append(restaurantImage);
+          //append news name to the body div with the class card-title
+          newsbodydiv.append("<h5 class='card-title'>" + response.articles[i].source.name + "</h5>");
 
-          //create a second div for the body. with a class of card-body
-          var restaurantBodyDiv = $("<div>");
-          restaurantBodyDiv.addClass("card-body");
+          //create text to show the author
+          var newstitle = $("<h5>").text("Source: " + response.articles[i].author);
+          newstitle.addClass("card-title");
+          newsbodydiv.append(newstitle);
+          //create text that shows the title of the article
+          var newsArticle = $("<p>").text("Title: " + response.articles[i].title);
+          newsArticle.addClass("card-subtitle");
+          newsbodydiv.append(newsArticle);
+          //providing the link to the website of the article
+          var newsLink = response.articles[i].url;
 
-          //append restaurant name to the body div with the class card-title
-          restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
 
-          //create paragraph to hold the open status with the class of card-subtitle
-          var open = restaurants[i].opening_hours.open_now;
-          
-          var restaurantOpen = $("<p>").text("Open Now: " + open);
-          restaurantOpen.addClass("card-subtitle");
-          restaurantBodyDiv.append(restaurantOpen);
+          var newsInfo = $("<a>").html("Link to Article");
+          newsInfo.attr("href", newsLink);
+          newsInfo.addClass("card-text");
+          newsbodydiv.append(newsInfo);
 
-          //create variables to hold rating, price level, type, and google maps link
-          var rating = restaurants[i].rating;
-          var price = restaurants[i].price_level;
-          var type = restaurants[i].types[0];
-          var mapLink = restaurants[i].photos[0].html_attributions[0];
-
-          //create variable to hold all above info and create paragraph with that info
-          var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
-          restaurantInfo.addClass("card-text");
-          restaurantBodyDiv.append(restaurantInfo);
-
-          //append restaurantbodyDiv to actual div
-          restaurantDiv.append(restaurantBodyDiv);
-
+          newsdiv.append(newsbodydiv);
           //prepend all information to content display div
-          $("#contentDisplay").prepend(restaurantDiv);
+          $("#contentDisplay").prepend(newsdiv);
         }
       });
-    });
 
-    //pushes information to firebase.database
-    database.ref().on("value", function (snapshot) {
-      
-      Counter = snapshot.val().clickCounter;
-    }), function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    }
-    //Get Location by using Geolocation
-    var x = document.getElementById("demo");
-    function getLocation() {
-      //   x.innerHTML = "Latitude: " + position.coords.latitude + 
-      //   "<br>Longitude: " + position.coords.longitude;
-    }
-    //function for continous clock
-    function startTime() {
-      var today = new Date();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
-      var t = setTimeout(startTime, 500);
-    }
-    function checkTime(i) {
-      if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
-      return i;
-    }
+
+      // On click button that allows the user to find resturants they may like
+      $("#restaurantsButton").on("click", function () {
+        console.warn("You selected Resetaurants");
+
+        //Clear the content display div
+        $("#contentDisplay").empty();
+
+        //Google Places API
+        var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+        $.ajax({
+          url: placesQueryURL,
+          method: "GET"
+        }).then(function (response) {
+
+          //create variable to store restaurants database reponse
+          var restaurants = response.results;
+
+          //for loop to create the cards in the content display div with the restaurants info
+          for (i = 0; i < 8; i++) {
+
+            //create a div restaurantDiv
+            var restaurantDiv = $("<div>");
+            restaurantDiv.addClass("card");
+            restaurantDiv.addClass("col-sm-3");
+
+            //create img tag for top card image with a class of card-img-top and id of cardImage
+            var restaurantImage = $("<img>");
+            restaurantImage.attr("src", restaurants[i].icon);
+            restaurantImage.addClass("card-img-top w-25 mt-4");
+            restaurantImage.attr("id", "cardImage");
+            restaurantDiv.append(restaurantImage);
+
+            //create a second div for the body. with a class of card-body
+            var restaurantBodyDiv = $("<div>");
+            restaurantBodyDiv.addClass("card-body");
+
+            //append restaurant name to the body div with the class card-title
+            restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
+
+            //create paragraph to hold the open status with the class of card-subtitle
+            var open = restaurants[i].opening_hours.open_now;
+
+            var restaurantOpen = $("<p>").text("Open Now: " + open);
+            restaurantOpen.addClass("card-subtitle");
+            restaurantBodyDiv.append(restaurantOpen);
+
+            //create variables to hold rating, price level, type, and google maps link
+            var rating = restaurants[i].rating;
+            var price = restaurants[i].price_level;
+            var type = restaurants[i].types[0];
+            var mapLink = restaurants[i].photos[0].html_attributions[0];
+
+            //create variable to hold all above info and create paragraph with that info
+            var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
+            restaurantInfo.addClass("card-text");
+            restaurantBodyDiv.append(restaurantInfo);
+
+            //append restaurantbodyDiv to actual div
+            restaurantDiv.append(restaurantBodyDiv);
+
+            //prepend all information to content display div
+            $("#contentDisplay").prepend(restaurantDiv);
+          }
+        });
+      });
+
+      //pushes information to firebase.database
+      database.ref().on("value", function (snapshot) {
+
+        Counter = snapshot.val().clickCounter;
+      }), function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      }
+      //Get Location by using Geolocation
+      var x = document.getElementById("demo");
+      function getLocation() {
+        //   x.innerHTML = "Latitude: " + position.coords.latitude + 
+        //   "<br>Longitude: " + position.coords.longitude;
+      }
+      //function for continous clock
+      function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('txt').innerHTML =
+          h + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+      }
+      function checkTime(i) {
+        if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+        return i;
+      }
+    });
   });
-};
+}
