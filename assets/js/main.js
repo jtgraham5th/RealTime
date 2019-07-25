@@ -62,9 +62,9 @@ function showPosition(position) {
         for (i = 0; i < 40; i += 8) {
           //appended the weather app to display in the table, should display description, time, and day
           var weatherDate = moment.unix(response.list[i].dt).format("ddd, MMM D")
-          var tempMax = Math.trunc((((response.list[i].main.temp_max) -273.15)*1.8)+32);
-          var tempMin = Math.trunc((((response.list[i].main.temp_min) -273.15)*1.8)+32);
-          
+          var tempMax = Math.trunc((((response.list[i].main.temp_max) - 273.15) * 1.8) + 32);
+          var tempMin = Math.trunc((((response.list[i].main.temp_min) - 273.15) * 1.8) + 32);
+
           console.log(response);
           $("#weatherbody").append("<tr>" + '<th scope="row">' + weatherDate + "</th>" + "<td>" + response.list[i].weather[0].description + "</td>" + "<td>" + "High: " + tempMax + " <br>Low: " + tempMin + "</td>" + "<td>" + "<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png' class='w-50'>" + "</td>" + "</tr>")
 
@@ -162,7 +162,7 @@ function showPosition(position) {
       url: placesQueryURL,
       method: "GET"
     }).then(function (response) {
-      
+
       //create variable to store restaurants database reponse
       var hotel = response.results;
       // on click function to redirect to another page for "Places to Stay"
@@ -183,7 +183,7 @@ function showPosition(position) {
         //append restaurant name to the body div with the class card-title
         hotelBodyDiv.append("<h5 class='card-title'>" + hotel[i].name + "</h5>");
         //create paragraph to hold the open status with the class of card-subtitle
-        
+
         //create variables to hold hotel name, hotel photo, vicinity, and ratings
         var hotelName = response.results[i].name;
         var hotelLink = response.results[i].photos[0].html_attributions[0];
@@ -199,151 +199,152 @@ function showPosition(position) {
         $("#contentDisplay").prepend(hotelDiv);
       }
     });
+  });
 
-    // on click function to redirect to another page for "Places to Stay"
-    $("#localButton").on("click", function () {
-      console.warn("You clicked this button");
-      //Clear the content display div
-      $("#contentDisplay").empty();
-      var queryURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e00b92eba88f4067ae9c597f113f0670";
-      $.ajax({
-        url: queryURL,
-        method: "Get"
-      }).then(function (response) {
-
-
-        for (i = 1; i < 9; i++) {
-
-          //create a div for the news to create a card
-          var newsdiv = $("<div>");
-          newsdiv.addClass("card");
-          newsdiv.addClass("col-sm-3");
-          //create a second div for the body with a class of card-body
-          var newsbodydiv = $("<div>");
-          newsbodydiv.addClass("card-body");
-
-          //append news name to the body div with the class card-title
-          newsbodydiv.append("<h5 class='card-title'>" + response.articles[i].source.name + "</h5>");
-
-          //create text to show the author
-          var newstitle = $("<h5>").text("Source: " + response.articles[i].author);
-          newstitle.addClass("card-title");
-          newsbodydiv.append(newstitle);
-          //create text that shows the title of the article
-          var newsArticle = $("<p>").text("Title: " + response.articles[i].title);
-          newsArticle.addClass("card-subtitle");
-          newsbodydiv.append(newsArticle);
-          //providing the link to the website of the article
-          var newsLink = response.articles[i].url;
+  // on click function to redirect to another page for "Places to Stay"
+  $("#localButton").on("click", function () {
+    console.warn("You clicked this button");
+    //Clear the content display div
+    $("#contentDisplay").empty();
+    var queryURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e00b92eba88f4067ae9c597f113f0670";
+    $.ajax({
+      url: queryURL,
+      method: "Get"
+    }).then(function (response) {
 
 
-          var newsInfo = $("<a>").html("Link to Article");
-          newsInfo.attr("href", newsLink);
-          newsInfo.addClass("card-text");
-          newsbodydiv.append(newsInfo);
+      for (i = 1; i < 9; i++) {
 
-          newsdiv.append(newsbodydiv);
-          //prepend all information to content display div
-          $("#contentDisplay").prepend(newsdiv);
-        }
-      });
+        //create a div for the news to create a card
+        var newsdiv = $("<div>");
+        newsdiv.addClass("card");
+        newsdiv.addClass("col-sm-3");
+        //create a second div for the body with a class of card-body
+        var newsbodydiv = $("<div>");
+        newsbodydiv.addClass("card-body");
+
+        //append news name to the body div with the class card-title
+        newsbodydiv.append("<h5 class='card-title'>" + response.articles[i].source.name + "</h5>");
+
+        //create text to show the author
+        var newstitle = $("<h5>").text("Source: " + response.articles[i].author);
+        newstitle.addClass("card-title");
+        newsbodydiv.append(newstitle);
+        //create text that shows the title of the article
+        var newsArticle = $("<p>").text("Title: " + response.articles[i].title);
+        newsArticle.addClass("card-subtitle");
+        newsbodydiv.append(newsArticle);
+        //providing the link to the website of the article
+        var newsLink = response.articles[i].url;
 
 
-      // On click button that allows the user to find resturants they may like
-      $("#restaurantsButton").on("click", function () {
-        console.warn("You selected Resetaurants");
+        var newsInfo = $("<a>").html("Link to Article");
+        newsInfo.attr("href", newsLink);
+        newsInfo.addClass("card-text");
+        newsbodydiv.append(newsInfo);
 
-        //Clear the content display div
-        $("#contentDisplay").empty();
-
-        //Google Places API
-        var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-        $.ajax({
-          url: placesQueryURL,
-          method: "GET"
-        }).then(function (response) {
-
-          //create variable to store restaurants database reponse
-          var restaurants = response.results;
-
-          //for loop to create the cards in the content display div with the restaurants info
-          for (i = 0; i < 8; i++) {
-
-            //create a div restaurantDiv
-            var restaurantDiv = $("<div>");
-            restaurantDiv.addClass("card");
-            restaurantDiv.addClass("col-sm-3");
-
-            //create img tag for top card image with a class of card-img-top and id of cardImage
-            var restaurantImage = $("<img>");
-            restaurantImage.attr("src", restaurants[i].icon);
-            restaurantImage.addClass("card-img-top w-25 mt-4");
-            restaurantImage.attr("id", "cardImage");
-            restaurantDiv.append(restaurantImage);
-
-            //create a second div for the body. with a class of card-body
-            var restaurantBodyDiv = $("<div>");
-            restaurantBodyDiv.addClass("card-body");
-
-            //append restaurant name to the body div with the class card-title
-            restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
-
-            //create paragraph to hold the open status with the class of card-subtitle
-            var open = restaurants[i].opening_hours.open_now;
-
-            var restaurantOpen = $("<p>").text("Open Now: " + open);
-            restaurantOpen.addClass("card-subtitle");
-            restaurantBodyDiv.append(restaurantOpen);
-
-            //create variables to hold rating, price level, type, and google maps link
-            var rating = restaurants[i].rating;
-            var price = restaurants[i].price_level;
-            var type = restaurants[i].types[0];
-            var mapLink = restaurants[i].photos[0].html_attributions[0];
-
-            //create variable to hold all above info and create paragraph with that info
-            var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
-            restaurantInfo.addClass("card-text");
-            restaurantBodyDiv.append(restaurantInfo);
-
-            //append restaurantbodyDiv to actual div
-            restaurantDiv.append(restaurantBodyDiv);
-
-            //prepend all information to content display div
-            $("#contentDisplay").prepend(restaurantDiv);
-          }
-        });
-      });
-
-      //pushes information to firebase.database
-      database.ref().on("value", function (snapshot) {
-
-        Counter = snapshot.val().clickCounter;
-      }), function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      }
-      //Get Location by using Geolocation
-      var x = document.getElementById("demo");
-      function getLocation() {
-        //   x.innerHTML = "Latitude: " + position.coords.latitude + 
-        //   "<br>Longitude: " + position.coords.longitude;
-      }
-      //function for continous clock
-      function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('txt').innerHTML =
-          h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
-      }
-      function checkTime(i) {
-        if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
-        return i;
+        newsdiv.append(newsbodydiv);
+        //prepend all information to content display div
+        $("#contentDisplay").prepend(newsdiv);
       }
     });
   });
+
+  // On click button that allows the user to find resturants they may like
+  $("#restaurantsButton").on("click", function () {
+    console.warn("You selected Resetaurants");
+
+    //Clear the content display div
+    $("#contentDisplay").empty();
+
+    //Google Places API
+    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+    $.ajax({
+      url: placesQueryURL,
+      method: "GET"
+    }).then(function (response) {
+
+      //create variable to store restaurants database reponse
+      var restaurants = response.results;
+
+      //for loop to create the cards in the content display div with the restaurants info
+      for (i = 0; i < 8; i++) {
+
+        //create a div restaurantDiv
+        var restaurantDiv = $("<div>");
+        restaurantDiv.addClass("card");
+        restaurantDiv.addClass("col-sm-3");
+
+        //create img tag for top card image with a class of card-img-top and id of cardImage
+        var restaurantImage = $("<img>");
+        restaurantImage.attr("src", restaurants[i].icon);
+        restaurantImage.addClass("card-img-top w-25 mt-4");
+        restaurantImage.attr("id", "cardImage");
+        restaurantDiv.append(restaurantImage);
+
+        //create a second div for the body. with a class of card-body
+        var restaurantBodyDiv = $("<div>");
+        restaurantBodyDiv.addClass("card-body");
+
+        //append restaurant name to the body div with the class card-title
+        restaurantBodyDiv.append("<h5 class='card-title'>" + restaurants[i].name + "</h5>");
+
+        //create paragraph to hold the open status with the class of card-subtitle
+        var open = restaurants[i].opening_hours.open_now;
+
+        var restaurantOpen = $("<p>").text("Open Now: " + open);
+        restaurantOpen.addClass("card-subtitle");
+        restaurantBodyDiv.append(restaurantOpen);
+
+        //create variables to hold rating, price level, type, and google maps link
+        var rating = restaurants[i].rating;
+        var price = restaurants[i].price_level;
+        var type = restaurants[i].types[0];
+        var mapLink = restaurants[i].photos[0].html_attributions[0];
+
+        //create variable to hold all above info and create paragraph with that info
+        var restaurantInfo = $("<p>").html("Rating: " + rating + " The price: " + price + " Category: " + type + " Need Directions? Just follow this link: " + mapLink);
+        restaurantInfo.addClass("card-text");
+        restaurantBodyDiv.append(restaurantInfo);
+
+        //append restaurantbodyDiv to actual div
+        restaurantDiv.append(restaurantBodyDiv);
+
+        //prepend all information to content display div
+        $("#contentDisplay").prepend(restaurantDiv);
+      }
+    });
+  });
+
+  //pushes information to firebase.database
+  database.ref().on("value", function (snapshot) {
+
+    Counter = snapshot.val().clickCounter;
+  }), function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  }
+  //Get Location by using Geolocation
+  var x = document.getElementById("demo");
+  function getLocation() {
+    //   x.innerHTML = "Latitude: " + position.coords.latitude + 
+    //   "<br>Longitude: " + position.coords.longitude;
+  }
+  //function for continous clock
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+      h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+  }
+  function checkTime(i) {
+    if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+    return i;
+  }
 }
+
+
