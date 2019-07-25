@@ -157,6 +157,8 @@ function showPosition(position) {
   //on click function will show you local hot spots
   $("#placesToStayButton").on("click", function () {
     console.warn("You clicked a button");
+    //Clear the content display div
+    $("#contentDisplay").empty();
     var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
     $.ajax({
       url: placesQueryURL,
