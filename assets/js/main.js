@@ -50,14 +50,9 @@ function showPosition(position) {
     console.log(response);
     zip = response.results[0].address_components[0].long_name;
     shortCountry = response.results[0].address_components[3].short_name;
-<<<<<<< HEAD
-
-    var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "," + "&appid=bdb30d5ce61beafda3576d082caf2f75&appid=bdb30d5ce61beafda3576d082caf2f75"
-=======
     currentAddress = response.results[0].formatted_address
     $("#currentAddress").text(currentAddress);
     var weatherGEOqueryURL = "https://api.openweathermap.org/data/2.5/forecast?zip=" + zip + "&appid=bdb30d5ce61beafda3576d082caf2f75"
->>>>>>> 28635065114dc6e50535c6b4ff56eefa26d012b8
     // var weatherCITYqueryURL = "api.openweathermap.org/data/2.5/forecast?=" + city +"," + country + "&appid=bdb30d5ce61beafda3576d082caf2f75";
     $.ajax({
       url: weatherGEOqueryURL,
