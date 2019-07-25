@@ -29,31 +29,31 @@ function showPosition(position) {
 
 
 
-  var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-$.ajax({
-  url: hotelQueryURL,
-  method: "GET"
-}).then(function (response) {
-  // on click function to redirect to another page for "Places to Stay"
-  // var results = response.data;
-  for (i=1; i < 5; i++) {
+//   var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+// $.ajax({
+//   url: hotelQueryURL,
+//   method: "GET"
+// }).then(function (response) {
+//   // on click function to redirect to another page for "Places to Stay"
+//   // var results = response.data;
+//   for (i=1; i < 5; i++) {
 
-    console.log(response)
-    var hotelName = response.results[i].name;
-    var hotelPhoto = response.results[i].photos[0].html_attributions[0];
-    var vicinity = response.results[i].vicinity;
-    var rating = response.results[i].rating;
+//     console.log(response)
+//     var hotelName = response.results[i].name;
+//     var hotelPhoto = response.results[i].photos[0].html_attributions[0];
+//     var vicinity = response.results[i].vicinity;
+//     var rating = response.results[i].rating;
     
 
-    console.log(hotelName);
-    console.log(hotelPhoto);
-    console.log(vicinity);
-    console.log(rating);
+//     console.log(hotelName);
+//     console.log(hotelPhoto);
+//     console.log(vicinity);
+//     console.log(rating);
 
 
-  }
+//   }
 
-});
+// });
 
   
   var reverseGeocodingQueryURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA"
@@ -276,16 +276,53 @@ $("#currentEventsButton").on("click", function () {
   //on click function will show you local hot spots
   $("#placesToStayButton").on("click", function () {
     console.warn("You clicked a button");
-    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=" + placeType + "&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+    var placesQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
     $.ajax({
       url: placesQueryURL,
       method: "GET"
     }).then(function (response) {
+      console.log(response)
+      //create variable to store restaurants database reponse
+      var hotel = response.results;
       // on click function to redirect to another page for "Places to Stay"
-      for (i = 0; i < 5; i++) {
-        console.log("Places to Stay: " + response.results[i].vicinity)
-      }
-    });
+      for (i = 1; i < 9; i++) {
+           //create a div hotelDiv
+           var hotelDiv = $("<div>");
+           hotelDiv.addClass("card");
+           hotelDiv.addClass("col-sm-3");
+           //create img tag for top card image with a class of card-img-top and id of cardImage
+           var hotelImage = $("<img>");
+           hotelImage.attr("src", hotel[i].icon);
+           hotelImage.addClass("card-img-top w-25");
+           hotelImage.attr("id", "cardImage");
+           hotelDiv.append(hotelImage);
+           //create a second div for the body. with a class of card-body
+           var hotelBodyDiv = $("<div>");
+           hotelBodyDiv.addClass("card-body");
+           //append restaurant name to the body div with the class card-title
+           hotelBodyDiv.append("<h5 class='card-title'>" + hotel[i].name + "</h5>");
+           //create paragraph to hold the open status with the class of card-subtitle
+           // var open = hotel[i].opening_hours.open_now;
+           // console.log(open)
+           // var hotelOpen = $("<p>").text("Open Now: " + open);
+           // hotelOpen.addClass("card-subtitle");
+           // hotelBodyDiv.append(hotelOpen);
+           //create variables to hold hotel name, hotel photo, vicinity, and ratings
+           var hotelName = response.results[i].name;
+           var hotelLink = response.results[i].photos[0].html_attributions[0];
+           var vicinity = response.results[i].vicinity;
+           var rating = response.results[i].rating;
+           //create variable to hold all above info and create paragraph with that info
+           var hotelInfo = $("<p>").html("Rating: <br>" + rating + " The name: <br>"  + hotelName + " Hotel Link: <br>" + hotelLink + " <br> Address: <br>" + vicinity);
+           hotelInfo.addClass("card-text");
+           hotelBodyDiv.append(hotelInfo);
+           //append hotelbodyDiv to actual div
+           hotelDiv.append(hotelBodyDiv);
+           //prepend all information to content display div
+           $("#contentDisplay").prepend(hotelDiv);
+         }
+       });
+      
    
   });
   // on click function to redirect to another page for "Places to Stay"
@@ -366,6 +403,69 @@ $("#currentEventsButton").on("click", function () {
       }
     });
    });
+
+   
+   
+   
+   
+   
+   
+   
+  //  $("#placesToStayButton").on("click", function () {
+  //   console.log("You selected Place to Stay");
+  //   //Clear the content display div
+  //   $("#contentDisplay").empty();
+  //   //Google Places API
+  //   var hotelQueryURL = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=16000&types=hotels&rankby=prominence&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+  //   $.ajax({
+  //     url: hotelQueryURL,
+  //     method: "GET"
+  //   }).then(function (response) {
+  //     //create variable to store Hotel database reponse
+  //     var hotel = response.results;
+  //     //for loop to create the cards in the content display div with the restaurants info
+  //     for (i=1; i < 5; i++) {
+  //       //create a div restaurantDiv
+  //       var hotelDiv = $("<div>");
+  //       hotelDiv.addClass("card");
+  //       hotelDiv.addClass("col-sm-3");
+  //       //create img tag for top card image with a class of card-img-top and id of cardImage
+  //       var hotelImage = $("<img>");
+  //       hotelImage.attr("src", hotel[i].icon);
+  //       hotelImage.addClass("card-img-top");
+  //       hotelImage.attr("id", "cardImage");
+  //       hotelDiv.append(hotelImage);
+  //       //create a second div for the body. with a class of card-body
+  //       var hotelBodyDiv = $("<div>");
+  //       hotelBodyDiv.addClass("card-body");
+  //       //append restaurant name to the body div with the class card-title
+  //       hotelBodyDiv.append("<h5 class='card-title'>" + hotel[i].name + "</h5>");
+  //       //create paragraph to hold the open status with the class of card-subtitle
+  //       // var open = hotel[i].opening_hours.open_now;
+  //       // console.log(open)
+  //       // var hotelOpen = $("<p>").text("Open Now: " + open);
+  //       // hotelOpen.addClass("card-subtitle");
+  //       // hotelBodyDiv.append(hotelOpen);
+  //       //create variables to hold hotel name, hotel photo, vicinity, and ratings
+  //       var hotelName = response.results[i].name;
+  //       var hotelPhoto = response.results[i].photos[0].html_attributions[0];
+  //       var vicinity = response.results[i].vicinity;
+  //       var rating = response.results[i].rating;
+  //       //create variable to hold all above info and create paragraph with that info
+  //       var hotelInfo = $("<p>").html("Rating: " + rating + " The name: " + hotelName + " Photo: " + hotelPhoto + " Vicinity: " + vicinity);
+  //       hotelInfo.addClass("card-text");
+  //       hotelBodyDiv.append(hotelInfo);
+  //       //append hotelbodyDiv to actual div
+  //       hotelDiv.append(hotelBodyDiv);
+  //       //prepend all information to content display div
+  //       $("#contentDisplay").prepend(hotelDiv);
+  //     }
+  //   });
+  //  });
+
+
+
+
   
   //pushes information to firebase.database
   database.ref().on("value", function (snapshot) {
@@ -409,3 +509,7 @@ $("#currentEventsButton").on("click", function () {
   //   console.log(time);
   //   return time;
   ______
+
+
+ 
+
