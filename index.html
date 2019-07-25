@@ -35,13 +35,9 @@
                     forecast,
                     places nearby, things to do, current events, and even local news! Click a button to get started!</p>
             </div>
-            <br>
-            <br>
-            <br>
             <div>
            
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <script src="https://geodata.solutions/includes/countrystatecity.js"></script>
+           
             </div>
         </div>
         <br>
@@ -50,7 +46,7 @@
                 <div class="card" style="height: 25rem">
                     <div style="width: 100%; height: 480px" id="map"></div>
                     <div class="card-body">
-                        <h5 class="card-title">You are here!</h5>
+                        <h5 class="card-title" id="currentAddress">You are here!</h5>
                         <p class="card-text">This is where you are currently located based on your geolocation!</p>
                     </div>
                 </div>
@@ -66,8 +62,8 @@
                                 <tr id="tablerow">
                                     <th scope="col">Day</th>
                                     <th scope="col">Weather</th>
-                                    <th scope="col">Time</th>
-                                
+                                    <th scope="col">Temperature</th>
+                                    <th scope="col">Icon</th>
                                 </tr>
                             </thead>
                             <tbody id="weatherbody">
