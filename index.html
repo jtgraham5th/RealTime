@@ -17,107 +17,77 @@
     <!-- LINK TO JQUERY LIBRARY -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/f0092e3d39.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="assets/styles/style.css">
 </head>
 
 <body>
+    <div class="navbar navbar-light justify-content-start">
+        <a class="navbar-brand " href="#"><i class="far fa-clock fa-3x"></i></a>
+        <h1 class="display-4 mr-auto">RealTime: <span class="h2" id="currentAddress" style="color: white; font-style: italic"></span></h1>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="City,State" aria-label="Search" id="newSearch">
+            <button class="btn my-2 my-sm-0" type="submit" id="submitSearch">Search</button>
+        </form>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="jumbotron" style="height: 15rem">
-               
-                <h1 class="display-4">Welcome to RealTime!</h1>
-            
-                <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
-                    RealTime, we
-                    strive to give our users the most up-to-date current information pertaining to the location of their
-                    choice.
-                    With the tap of a finger, RealTime will use gelocation to provide our users with a current 5-day
-                    forecast,
-                    places nearby, things to do, current events, and even local news! Click a button to get started!</p>
-            </div>
-            <div>
-           
-           
-            </div>
-        </div>
+        <!-- <div class="jumbotron" style="height: 15rem">
+            <p class="lead">Do you love to travel but sometimes find yourself lost in a foreign world? Here at
+                RealTime, we
+                strive to give our users the most up-to-date current information pertaining to the location of their
+                choice.
+                With the tap of a finger, RealTime will use gelocation to provide our users with a current 5-day
+                forecast,
+                places nearby, things to do, current events, and even local news! Click a button to get started!</p>
+        </div> -->
+
         <br>
         <div class="row">
-            <div class="col-8">
-                <div class="card" style="height: 25rem">
+
+            <div class="col-7">
+                <div class="card border-dark" style="height: 600px">
                     <div style="width: 100%; height: 480px" id="map"></div>
-                    <div class="card-body">
-                        <h5 class="card-title" id="currentAddress">You are here!</h5>
-                        <p class="card-text">This is where you are currently located based on your geolocation!</p>
+                    <div class="card-body row d-flex justify-content-around" id="weatherbody">
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card" style="height: 25rem">
-                   
-                    <div class="card-body" id="weather-color">
-                        
-
-                        <table class="table table-sm " id="weather-table">
-                            <thead>
-                                <tr id="tablerow">
-                                    <th scope="col">Day</th>
-                                    <th scope="col">Weather</th>
-                                    <th scope="col">Temperature</th>
-                                    <th scope="col">Icon</th>
-                                </tr>
-                            </thead>
-                            <tbody id="weatherbody">
-
-                            </tbody>
-                        </table>
-                    
-                        <p class="card-text" id="weather2">Weather for the next 5 days!</p> 
-                    </div>
+            <div class="card col-5 bg-secondary" style="height: 80%">
+                <div class="card-body border-bottom d-flex justify-content-center" id="restaurantsButton">
+                    <i class="fas fa-utensils fa-2x mr-3"></i>
+                    <h5 class="card-title">Restaurants</h5>
                 </div>
+                <ul class="list-group list-group-flush overflow-auto" id="restaurantsDisplay"> </ul>
+                <div class="card-body border-bottom d-flex justify-content-center" id="placesToStayButton">
+                    <i class="fas fa-hotel fa-2x mr-3"></i>
+                    <h5 class="card-title">Places to Stay</h5>
+                </div>
+                <ul class="list-group list-group-flush overflow-auto" id="hotelsDisplay"> </ul>
+                <div class="card-body border-bottom d-flex justify-content-center"" id="currentEventsButton">
+                    <i class="fas fa-calendar-day fa-2x mr-3"></i>
+                    <h5 class="card-title">Current Events</h5>
+                </div>
+                <ul class="list-group list-group-flush overflow-auto" id="eventsDisplay"> </ul>
+                <div class="card-body d-flex justify-content-center"" id="localButton">
+                    <i class="fas fa-newspaper fa-2x mr-3"></i>
+                    <h5 class="card-title">Local News</h5>
+                </div>
+
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="restaurantsButton">
-                    Restaurants
-                </button></div>
-            <div class="col text-center">
-                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="placesToStayButton">
-                    Places to Stay
-                </button></div>
-            <div class="col text-center">
-                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="currentEventsButton">
-                    Current Events
-                </button></div>
-            <div class="col text-center">
-                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="localButton">
-                    Local News
-                </button></div>
-            <!-- <div class="col text-center">
-                <button type="button" class="btn btn-light" data-toggle="button" aria-pressed="false" autocomplete="off"
-                    id="emergencyServicesButton">
-                    Emergency Services
-                </button></div> -->
-        </div>
-        <br>
-        <div class="row" id="contentDisplay">
 
-        </div>
-        <div class="row" id="contentDisplay2">
+    </div>
+    <div class="row" id="contentDisplay2">
 
-        </div>
+    </div>
+    </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA&v=3&callback=initMap"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA&v=3&callback=initMap"></script>
     <script src="assets/js/main.js"></script>
 
     <script>
-       
+
     </script>
 
 

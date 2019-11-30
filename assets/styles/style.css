@@ -5,6 +5,11 @@ body{
     background-attachment: fixed;
     
 }
+.navbar{
+    background-color: darkslateblue;
+    border-color: black;
+    border: 10px;
+}
 .jumbotron{
     background-color:transparent;
     color:white;
@@ -13,11 +18,18 @@ body{
     background-color: white;
     color: black;
 }
+.card-body{
+    border-color: #343a40!important;
+}
 #buttons{
     align-self: center;
 }
-#contentDisplay{
+/* #contentDisplay{
     color: white;
+} */
+
+#cardImage {
+    width: 5%;
 }
 /* #weather-table{
     color: navajowhite;
