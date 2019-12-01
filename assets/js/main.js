@@ -35,32 +35,6 @@ function reverseGeoCoding(latitude, longitude) {
     getWeather(zip);
   });
 }
-
-$("#submitSearch").on("click", function() {
-  event.preventDefault();
-  var searchArea = $("#newSearch").val();
-  var geocodingQueryURL =
-    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-    searchArea +
-    "&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
-  $.ajax({
-    url: geocodingQueryURL,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-    latitude = response.results[0].geometry.location.lat;
-    longitude = response.results[0].geometry.location.lng;
-    reverseGeoCoding(latitude, longitude);
-    initMap();
-  });
-});
-
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: latitude, lng: longitude },
-    zoom: 14
-  });
-
   //-----------Weather API----------
   function getWeather(zip) {
     var weatherGEOqueryURL =
@@ -102,6 +76,32 @@ function initMap() {
     });
   }
 
+$("#submitSearch").on("click", function() {
+  event.preventDefault();
+  var searchArea = $("#newSearch").val();
+  var geocodingQueryURL =
+    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+    searchArea +
+    "&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA";
+  $.ajax({
+    url: geocodingQueryURL,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    latitude = response.results[0].geometry.location.lat;
+    longitude = response.results[0].geometry.location.lng;
+    reverseGeoCoding(latitude, longitude);
+    initMap();
+  });
+});
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: latitude, lng: longitude },
+    zoom: 14
+  });
+
+
   //----------Events API---------
   //----Status: WORKING----------
   //----Comments: Used Public API Key, May want to include option to set dates of events listed
@@ -138,62 +138,63 @@ function initMap() {
         for (i = 0; i < 8; i++) {
           //create a div eventsDiv with a class of card
           var eventsDiv = $("<li>");
-          eventsDiv.addClass("list-group-item");
-
-          var eventsBodyDiv = $("<div>");
-          eventsBodyDiv.addClass("card-body");
-
+          eventsDiv.addClass("list-group-item d-flex");
+          var eventsImageDiv = $("<div>");
+          eventsImageDiv.addClass("col-md-4 p-0");
+          
           //create img tag for top card image with a class of card-img-top and id of cardImage
           var eventsImage = $("<img>");
           eventsImage.attr("src", events[i].logo.url);
-          eventsImage.addClass("d-inline");
-          eventsImage.attr("id", "cardImage");
-          eventsDiv.append(eventsImage);
+          eventsImage.addClass("w-100");
+          eventsImageDiv.append(eventsImage);
+          eventsDiv.append(eventsImageDiv);
+
+          var eventsBodyDiv = $("<div>");
+          eventsBodyDiv.addClass("col-md-8");
+          var eventsCardBody = $("<div>");
+          eventsCardBody.addClass("card-body p-0");
+          //append event name to the body div with the class card-title
+          eventsCardBody.append(
+            "<h5 class='card-title'>" + events[i].name.text + "</h5>"
+          );
 
           //create a second div for the body with a class of card-body
 
-          //append event name to the body div with the class card-title
-          eventsBodyDiv.append(
-            "<h5 class='card-title d-inline'>" + events[i].name.text + "</h5>"
-          );
-
           //create paragraph to hold date of event with the class of card-subtitle
-          var date = response.events[i].start.local;
+          var date = moment(response.events[i].start.local).format('ll');
 
-          var dateOfEvent = $("<p>").text("Date: " + date);
+          var dateOfEvent = $("<p>").text(date);
           dateOfEvent.addClass("card-subtitle");
-          eventsBodyDiv.append(dateOfEvent);
+          eventsCardBody.append(dateOfEvent);
 
           //create variables to hold start time, end time, venue name, address and the event brite link.
-          var start = events[i].start.local;
-          var end = events[i].end.local;
+          var start = moment(events[i].start.local).format('LT');
+          var end = moment(events[i].end.local).format('LT');
           var venue = events[i].venue.name;
           var address = events[i].venue.address.address_1;
 
           var link = events[i].url;
 
           //create variable to hold all above info and create paragraph with that info
-          var eventInfo = $("<p>").html(
-            "The start time for this events is " +
-              start +
-              "and it will be ending at " +
-              end +
-              ". It will be held at " +
-              venue +
-              "which is located at " +
-              address
-          );
-
-          var eventLink = $("<a>").html("Link to website!");
+          var eventTime = $("<small>").html(
+              start + 
+              " - " +
+              end)
+          var eventVenue =$("<div>").html(venue)
+          var eventLocation =$("<div>").html(address)
+          var eventLink = $("<a>").html("More Info");
           eventLink.attr("href", link);
-
           eventLink.addClass("card-text");
-          eventInfo.addClass("card-text");
-          eventsBodyDiv.append(eventInfo);
-          eventsBodyDiv.append(eventLink);
+          eventVenue.addClass("card-text");
+          eventLocation.addClass("card-text");
+          eventTime.addClass("card-text");
+          eventsCardBody.append(eventTime);
+          eventsCardBody.append(eventVenue);
+          eventsCardBody.append(eventLocation);
+          eventsCardBody.append(eventLink);
 
           //append restaurantbodyDiv to actual div
-          eventsDiv.append(eventsBodyDiv);
+          eventsDiv.append(eventsCardBody);
 
           //prepend all information to content display div
           $("#eventsDisplay").prepend(eventsDiv);
@@ -238,42 +239,44 @@ function initMap() {
           });
           //create a div hotelDiv
           var hotelDiv = $("<li>");
-          hotelDiv.addClass("list-group-item");
-
-          var hotelBodyDiv = $("<div>");
-          hotelBodyDiv.addClass("card-body");
+          hotelDiv.addClass("list-group-item d-flex");
+          var hotelImageDiv = $("<div>")
+          hotelImageDiv.addClass("col-md-4 p-0");
 
           //create img tag for top card image with a class of card-img-top and id of cardImage
           var hotelImage = $("<img>");
-          hotelImage.attr("src", hotel[i].icon);
-          hotelImage.addClass("d-inline");
-          hotelImage.attr("id", "cardImage");
-          hotelDiv.append(hotelImage);
+          hotelImage.attr("src", "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference=" + hotel[i].photos[0].photo_reference + "&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA");
+          hotelImage.addClass("w-100");
+          // hotelImage.attr("id", "cardImage");
+          hotelImageDiv.append(hotelImage);
+          hotelDiv.append(hotelImageDiv)
+
           //create a second div for the body. with a class of card-body
-          //append restaurant name to the body div with the class card-title
-          hotelBodyDiv.append(
+          var hotelBodyDiv = $("<div>");
+          hotelBodyDiv.addClass("col-md-8");
+          var hotelCardBody = $("<div>");
+          hotelCardBody.addClass("card-body p-0");
+          //append hotel name to the body div with the class card-title
+          hotelCardBody.append(
             "<h5 class='card-title d-inline'>" + hotel[i].name + "</h5>"
           );
           //create paragraph to hold the open status with the class of card-subtitle
 
           //create variables to hold hotel name, hotel photo, vicinity, and ratings
-          var hotelName = response.results[i].name;
-          var hotelLink = response.results[i].photos[0].html_attributions[0];
+          var rating = parseInt(response.results[i].rating)
+          var ratingDiv = $("<div>").text("Rating: ")
+          for (x = 0; x < rating; x++) {
+            var star = $("<i>").addClass("fas fa-star");
+            ratingDiv.append(star);
+          };
+          hotelCardBody.append(ratingDiv);
+
           var vicinity = response.results[i].vicinity;
-          var rating = response.results[i].rating;
+          var vicinityDiv =$("<div>").text(vicinity);
+          hotelCardBody.append(vicinityDiv)
+
           //create variable to hold all above info and create paragraph with that info
-          var hotelInfo = $("<p>").html(
-            "Rating: <br>" +
-              rating +
-              " The name: <br>" +
-              hotelName +
-              " Hotel Link: <br>" +
-              hotelLink +
-              " <br> Address: <br>" +
-              vicinity
-          );
-          hotelInfo.addClass("card-text");
-          hotelBodyDiv.append(hotelInfo);
+          hotelBodyDiv.append(hotelCardBody)
           //append hotelbodyDiv to actual div
           hotelDiv.append(hotelBodyDiv);
           //prepend all information to content display div
@@ -359,7 +362,7 @@ function initMap() {
       }).then(function(response) {
         //create variable to store restaurants database reponse
         var restaurants = response.results;
-
+        console.log(restaurants)
         //for loop to create the cards in the content display div with the restaurants info
         for (i = 0; i < 8; i++) {
             new google.maps.Marker({
@@ -372,51 +375,60 @@ function initMap() {
             });
           //create a div restaurantDiv
           var restaurantDiv = $("<li>");
-          restaurantDiv.addClass("list-group-item");
-
-          var restaurantBodyDiv = $("<div>");
-          restaurantBodyDiv.addClass("card-body");
+          restaurantDiv.addClass("list-group-item d-flex");
+          var restaurantImageDiv = $("<div>")
+          restaurantImageDiv.addClass("col-md-4 p-0");
 
           //create img tag for top card image with a class of card-img-top and id of cardImage
           var restaurantImage = $("<img>");
           restaurantImage.attr("src", "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference=" + restaurants[i].photos[0].photo_reference + "&key=AIzaSyCxdeV70eNJ_KpZDdphRVKntO23zlCg6KA");
-          restaurantImage.addClass("d-inline");
+          restaurantImage.addClass("w-100");
           // restaurantImage.attr("id", "cardImage");
-          restaurantBodyDiv.append(restaurantImage);
+          restaurantImageDiv.append(restaurantImage);
+          restaurantDiv.append(restaurantImageDiv);
 
           //create a second div for the body. with a class of card-body
-
+          var restaurantBodyDiv = $("<div>");
+          restaurantBodyDiv.addClass("col-md-8");
+          var restaurantCardBody = $("<div>");
+          restaurantCardBody.addClass("card-body p-0");
           //append restaurant name to the body div with the class card-title
-          restaurantBodyDiv.append(
+          restaurantCardBody.append(
             "<h5 class='card-title'>" + restaurants[i].name + "</h5>"
           );
 
           //create paragraph to hold the open status with the class of card-subtitle
           var open = restaurants[i].opening_hours.open_now;
-
-          var restaurantOpen = $("<p>").text("Open Now: " + open);
+          if (open) {
+            var restaurantOpen = $("<strong>").text("Open Now").addClass("text-success");
+          } else {
+            var restaurantOpen = $("<strong>").text("Closed").addClass("text-danger");
+          }
+          
           restaurantOpen.addClass("card-subtitle");
-          restaurantBodyDiv.append(restaurantOpen);
+          restaurantCardBody.append(restaurantOpen);
 
           //create variables to hold rating, price level, type, and google maps link
-          var rating = restaurants[i].rating;
-          var price = restaurants[i].price_level;
+          var rating = parseInt(response.results[i].rating)
+          var ratingDiv = $("<div>").text("Rating: ")
+          for (x = 0; x < rating; x++) {
+            var star = $("<i>").addClass("fas fa-star");
+            ratingDiv.append(star);
+          };
+          restaurantCardBody.append(ratingDiv);
+
+          var price = parseInt(restaurants[i].price_level);
+          var priceDiv = $("<div>").text("Price: ")
+          for (x = 0; x < price; x++) {
+            var dollar = $("<i>").addClass("fas fa-dollar-sign");
+            priceDiv.append(dollar);
+          };
+          restaurantCardBody.append(priceDiv);
+
           var type = restaurants[i].types[0];
           var mapLink = restaurants[i].photos[0].html_attributions[0];
-
-          //create variable to hold all above info and create paragraph with that info
-          var restaurantInfo = $("<p>").html(
-            "Rating: " +
-              rating +
-              " The price: " +
-              price +
-              " Category: " +
-              type +
-              " Need Directions? Just follow this link: " +
-              mapLink
-          );
-          restaurantInfo.addClass("card-text");
-          restaurantBodyDiv.append(restaurantInfo);
+       
+          restaurantBodyDiv.append(restaurantCardBody);
 
           //append restaurantbodyDiv to actual div
           restaurantDiv.append(restaurantBodyDiv);
@@ -428,7 +440,6 @@ function initMap() {
       });
     }
   });
-
   //Get Location by using Geolocation
   var x = document.getElementById("demo");
   function getLocation() {
