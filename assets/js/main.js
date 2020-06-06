@@ -117,7 +117,7 @@ function initMap() {
       $("#eventsDisplay").empty();
       $("#eventsDisplay").css("height", "480px");
       //EventBrite API information
-      var eventsQueryURL = "https://www.eventbriteapi.com/v3/events/search/";
+      var eventsQueryURL = "https://cors-anywhere.herokuapp.com/https://www.eventbriteapi.com/v3/events/search/";
       $.ajax({
         url: eventsQueryURL,
         data: {

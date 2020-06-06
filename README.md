@@ -1,4 +1,5 @@
 # RealTime
+## Click [here](https://jtgraham5th.github.io/RealTime/) to visit the website
 
 RealTime is an application that allows a user to retrieve information based on their geolocation. The user will have a map of their current locaiton provided via google maps that is constantly displayed, along with the 10 day local weather forecast, for the user. Below the map and weather, the user will have 5 buttons to choose from: "Restaurants", "Places to Stay", "Current Events", "Local News", and "Emergency Services". 
 
@@ -10,3 +11,5 @@ The user can get started with the application by simply opening it. Upon documen
 How users can get started with the project
 
 This application is maintained and supported by our RealTime Team: Mutahir Chaudhry, Brandon Fields, Ryan Hart, Jeremiah Graham.
+
+![RealTime Gif](/assets/images/RealTime.gif)
